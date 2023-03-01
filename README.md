@@ -7,8 +7,8 @@ import "@molecule/IMolecule.sol";
 
 contract MyContract {
   safeTransfer(address _to) {
-    require(IMolecule(_molecule_address).check([1, 2], msg.sender), "MyContract: Sender is on sanction list");
-    require(IMolecule(_molecule_address).check([1, 2], _to), "MyContract: Recipient is on sanction list");
+    require(!IMolecule(_molecule_address).check([1, 2], msg.sender), "MyContract: Sender is on sanction list");
+    require(!IMolecule(_molecule_address).check([1, 2], _to), "MyContract: Recipient is on sanction list");
     // implementation
   }
 }
