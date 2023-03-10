@@ -1,3 +1,5 @@
+cache/
+
 # Logs
 logs
 *.log
@@ -74,7 +76,6 @@ typings/
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
-cache/
 
 # Next.js build output
 .next

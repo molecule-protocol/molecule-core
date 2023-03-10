@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-// Interface for Molecule Smart Contract
+// Interface for Molecule Protocol Smart Contract
 interface IMolecule {
     // // selected logic combinations
     // uint32 [] private _selected;
