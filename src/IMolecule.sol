@@ -5,6 +5,8 @@ pragma solidity ^0.8.17;
 interface IMolecule {
     // // selected logic combinations
     // uint32 [] private _selected;
+    // // when `paused` is true, all checks will return true
+    // bool public _isPaused = false;
 
     // // list id => atomic logic contract address
     // mapping(uint32 => address) private _logicContract;
@@ -21,6 +23,8 @@ interface IMolecule {
     event LogicRemoved(uint32 indexed id);
     // event emitted when a new logic combination is selected
     event Selected(uint32 [] ids);
+    // event emitted when toggling pause
+    event Paused(bool isPaused);
 
     // Use default logic combination
     function check(address account) external view returns (bool);
@@ -28,6 +32,9 @@ interface IMolecule {
     function check(uint32 [] memory ids, address account) external view returns (bool);
 
     // Owner only functions
+    // Instead of using a toggle, we use separate functions to avoid confusion
+    function pause() external;
+    function unpause() external;
     // Preselect logic combinations
     function select(uint32 [] memory ids) external;
     // Add a new logic

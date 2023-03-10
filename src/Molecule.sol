@@ -8,6 +8,8 @@ import "./ILogicAddress.sol";
 contract Molecule is Ownable, IMolecule {
     // selected logic combinations
     uint32 [] public _selected;
+    // when `paused` is true, all checks will return true, essentially removing all gates
+    bool public _isPaused = false;
 
     // list id => atomic logic contract address
     mapping(uint32 => address) private _logicContract;
@@ -31,6 +33,17 @@ contract Molecule is Ownable, IMolecule {
     }
 
     // Owner only functions
+    // instead of using a toggle, we use separate functions to avoid confusion
+    function pause() external onlyOwner {
+        _isPaused = true;
+        emit Paused(_isPaused);
+    }
+    function unpause() external onlyOwner {
+        _isPaused = false;
+        emit Paused(_isPaused);
+    }
+
+
     // Preselect logic combinations
     function select(uint32 [] memory ids) external onlyOwner {
         for (uint i = 0; i < ids.length; i++) {
@@ -80,6 +93,7 @@ contract Molecule is Ownable, IMolecule {
 
     // Internal functions
     function _check(uint32 [] memory ids, address account) internal view returns (bool) {
+        if (_isPaused) return true;
         for (uint i = 0; i < ids.length; i++) {
             uint32 id = ids[i];
             require (_logicContract[id] != address(0), "MoleculeAML: list not found");
