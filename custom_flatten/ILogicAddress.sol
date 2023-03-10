@@ -1,9 +1,9 @@
-// Root file: src/IAtomAddress.sol
+// Root file: src/ILogicAddress.sol
 
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
 // Interface for Molecule Smart Contract
-interface IAtomAddress {
+interface ILogicAddress {
     function check(address account) external view returns (bool);
 }
