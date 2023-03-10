@@ -51,6 +51,19 @@
       "type": "event"
     },
     {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint32[]",
+          "name": "ids",
+          "type": "uint32[]"
+        }
+      ],
+      "name": "Selected",
+      "type": "event"
+    },
+    {
       "inputs": [
         {
           "internalType": "uint32",
