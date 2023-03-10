@@ -12,13 +12,13 @@
         {
           "indexed": true,
           "internalType": "address",
-          "name": "atom",
+          "name": "logicContract",
           "type": "address"
         },
         {
           "indexed": false,
           "internalType": "bool",
-          "name": "allow",
+          "name": "isAllowList",
           "type": "bool"
         },
         {
@@ -30,11 +30,11 @@
         {
           "indexed": false,
           "internalType": "bool",
-          "name": "logic",
+          "name": "reverseLogic",
           "type": "bool"
         }
       ],
-      "name": "AtomAdded",
+      "name": "LogicAdded",
       "type": "event"
     },
     {
@@ -47,7 +47,7 @@
           "type": "uint32"
         }
       ],
-      "name": "AtomRemoved",
+      "name": "LogicRemoved",
       "type": "event"
     },
     {
@@ -59,12 +59,12 @@
         },
         {
           "internalType": "address",
-          "name": "atom",
+          "name": "logicContract",
           "type": "address"
         },
         {
           "internalType": "bool",
-          "name": "allow",
+          "name": "isAllowList",
           "type": "bool"
         },
         {
@@ -74,11 +74,44 @@
         },
         {
           "internalType": "bool",
-          "name": "logic",
+          "name": "reverseLogic",
           "type": "bool"
         }
       ],
-      "name": "addAtom",
+      "name": "addLogic",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32[]",
+          "name": "ids",
+          "type": "uint32[]"
+        },
+        {
+          "internalType": "address[]",
+          "name": "logicContracts",
+          "type": "address[]"
+        },
+        {
+          "internalType": "bool[]",
+          "name": "isAllowLists",
+          "type": "bool[]"
+        },
+        {
+          "internalType": "string[]",
+          "name": "names",
+          "type": "string[]"
+        },
+        {
+          "internalType": "bool[]",
+          "name": "reverseLogics",
+          "type": "bool[]"
+        }
+      ],
+      "name": "addLogicBatch",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
@@ -110,12 +143,57 @@
     {
       "inputs": [
         {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "check",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
           "internalType": "uint32",
           "name": "id",
           "type": "uint32"
         }
       ],
-      "name": "removeAtom",
+      "name": "removeLogic",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32[]",
+          "name": "ids",
+          "type": "uint32[]"
+        }
+      ],
+      "name": "removeLogicBatch",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint32[]",
+          "name": "ids",
+          "type": "uint32[]"
+        }
+      ],
+      "name": "select",
       "outputs": [],
       "stateMutability": "nonpayable",
       "type": "function"
