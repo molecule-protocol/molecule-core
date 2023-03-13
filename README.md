@@ -1,9 +1,9 @@
-# molecule-aml
+# molecule-core
 
-## How to use the AML smart contract?
+## How to use the Molecule smart contract?
 
 ```
-import "@molecule/IMolecule.sol";
+import "@molecule/1.0/IMolecule.sol";
 
 contract MyContract {
   safeTransfer(address _to) {
