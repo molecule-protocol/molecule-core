@@ -18,7 +18,9 @@ contract MyContract {
 3. You can pick a list of sanction list or deploy your own custom list in the molecule contract
 
 
-## Deployments  Goerli 
+## AML Deployments
+
+Goerli Testnet:
 
 - Molecule contract : [0x1B74ff3615C982872C150E6E237Ad303240031CC](https://goerli.etherscan.io/address/0x1b74ff3615c982872c150e6e237ad303240031cc)
 
