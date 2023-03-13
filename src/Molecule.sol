@@ -2,8 +2,8 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./IMolecule.sol";
-import "./ILogicAddress.sol";
+import "@moleculeprotocol/molecule-core/src/IMolecule.sol";
+import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
 
 contract Molecule is Ownable, IMolecule {
     // selected logic combinations

@@ -3,7 +3,7 @@
 ## How to use the Molecule smart contract?
 
 ```
-import "@molecule/1.0/IMolecule.sol";
+import "@moleculeprotocol/molecule-core/src/IMolecule.sol";
 
 contract MyContract {
   safeTransfer(address _to) {
@@ -22,8 +22,8 @@ contract MyContract {
 
 Goerli Testnet:
 
-- Molecule contract : [0x1B74ff3615C982872C150E6E237Ad303240031CC](https://goerli.etherscan.io/address/0x1b74ff3615c982872c150e6e237ad303240031cc)
+- Molecule contract : [0x3e3B446fA3c53b0c522ad0704319D59a271dCA13](https://goerli.etherscan.io/address/0x3e3B446fA3c53b0c522ad0704319D59a271dCA13)
 
-- LogicAML US (ID:840) contract address : [0xEB98D082006422C7E72b480FCe912fc9fb7D1938](https://goerli.etherscan.io/address/0xEB98D082006422C7E72b480FCe912fc9fb7D1938)
+- LogicAML US (ID:840) contract address : [0x508f44aa951551616AE7Ca9B1cdC6E1F8AD2156c](https://goerli.etherscan.io/address/0x508f44aa951551616AE7Ca9B1cdC6E1F8AD2156c)
 
-- LogicAML UK (ID:826) contract address :[0xA31307ab146a5E8A593277911C276Ac078809FA4](https://goerli.etherscan.io/address/0xA31307ab146a5E8A593277911C276Ac078809FA4)
+- LogicAML UK (ID:826) contract address :[0x4e394fe5e9237764F2Da3DCE209776Ee2e5f8E74](https://goerli.etherscan.io/address/0x4e394fe5e9237764F2Da3DCE209776Ee2e5f8E74)
