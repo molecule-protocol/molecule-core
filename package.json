@@ -1,7 +1,7 @@
 {
-  "name": "molecule-aml",
-  "description": "Molecule Protocol AML Sanctions List",
-  "version": "1.0.0",
+  "name": "molecule-core",
+  "description": "Molecule Protocol Core Contracts",
+  "version": "2.0.0",
   "author": "Calvin Pak <calvinpak@gmail.com>",
   "scripts": {
     "build": "waffle",
