@@ -7,15 +7,26 @@ import "@moleculeprotocol/molecule-core/src/IMolecule.sol";
 
 contract MyContract {
   safeTransfer(address _to) {
-    require(IMolecule(_molecule_address).check(_to), "MyContract: Recipient is on sanction list");
+    require(IMolecule(_molecule_address).check(abi.encode(_to)), "MyContract: access denied.");
+    // implementation
+  }
+}
+```
+
+```
+import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
+
+contract MyContract {
+  safeTransfer(address _to) {
+    require(IMoleculeAddress(_molecule_address).check(_to), "MyContract: access denied.");
     // implementation
   }
 }
 ```
 
 1. Import the Molecule Protocol Interface smart contract
-2. Cast the sanction list address and call to check the recipient
-3. You can pick a list of sanction list or deploy your own custom list in the molecule contract
+2. Cast the molecule smart contract address and call to check the recipient
+3. You can configure your custom logic in the molecule smart contract
 
 
 ## AML Deployments

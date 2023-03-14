@@ -2,12 +2,12 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@moleculeprotocol/molecule-core/src/ILogic.sol";
+import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
 
 /// @title Molecule Protocol LogicAML contract
 /// @dev This contract implements the ILogicAddress interface with address input
 ///      It will return true if the `account` exists in the List
-contract LogicAML is Ownable, ILogic {
+contract LogicAML is Ownable, ILogicAddress {
     constructor() {}
 
     mapping(address => bool) private batchData;
@@ -40,8 +40,7 @@ contract LogicAML is Ownable, ILogic {
     }
 
     // checks whether the address is present inside the list and returns true if its present
-    function check(bytes memory data) external view returns (bool) {
-        address account = abi.decode(data, (address));
+    function check(address account) external view returns (bool) {
         return batchData[account];
     }
 }

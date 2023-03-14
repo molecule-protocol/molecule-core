@@ -288,37 +288,36 @@ abstract contract Ownable is Context {
 }
 
 
-// Dependency file: src/ILogic.sol
+// Dependency file: @moleculeprotocol/molecule-core/src/ILogicAddress.sol
 
 // pragma solidity ^0.8.17;
 
 // Interface for Molecule Smart Contract
-interface ILogic {
-    function check(bytes memory data) external view returns (bool);
+interface ILogicAddress {
+    function check(address account) external view returns (bool);
 }
 
 
-// Root file: src/LogicNFT.sol
+// Root file: src/LogicAddressNFT.sol
 
 pragma solidity ^0.8.17;
 
 // import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 // import "@openzeppelin/contracts/access/Ownable.sol";
-// import "src/ILogic.sol";
+// import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
 
 /// @title Molecule Protocol Logic NFT-gating contract (ERC721 only)
 /// @dev This contract implements the ILogicAddress interface with address input
 ///      It will return true if the `account` owns any NFTs in the specified contract
 ///  Note: 1155 requires tokenId as input, currently not supported
-contract LogicNFT is Ownable, ILogic {
+contract LogicNFT is Ownable, ILogicAddress {
     // NFT contract address
     address public _nftContract;
 
     event NFTContractSet(address nftContract);
 
     // Returns true if the address has the NFT
-    function check(bytes memory data) external view override returns (bool) {
-        address account = abi.decode(data, (address));
+    function check(address account) external view override returns (bool) {
         return IERC721(_nftContract).balanceOf(account) > 0;
     }
 

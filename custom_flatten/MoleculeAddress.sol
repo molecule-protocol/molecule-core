@@ -112,12 +112,12 @@ abstract contract Ownable is Context {
 }
 
 
-// Dependency file: src/IMolecule.sol
+// Dependency file: src/IMoleculeAddress.sol
 
 // pragma solidity ^0.8.17;
 
 // Interface for Molecule Protocol Smart Contract
-interface IMolecule {
+interface IMoleculeAddress {
     // // selected logic combinations
     // uint32[] private _selected;
 
@@ -145,9 +145,9 @@ interface IMolecule {
     event StatusChanged(Status status);
 
     // Use default logic combination
-    function check(bytes memory data) external view returns (bool);
+    function check(address account) external view returns (bool);
     // Use custom logic combination
-    function check(uint32[] memory ids, bytes memory data) external view returns (bool);
+    function check(uint32[] memory ids, address account) external view returns (bool);
 
     // Owner only functions
     // Control the status of the contract
@@ -165,25 +165,25 @@ interface IMolecule {
 }
 
 
-// Dependency file: src/ILogic.sol
+// Dependency file: @moleculeprotocol/molecule-core/src/ILogicAddress.sol
 
 // pragma solidity ^0.8.17;
 
 // Interface for Molecule Smart Contract
-interface ILogic {
-    function check(bytes memory data) external view returns (bool);
+interface ILogicAddress {
+    function check(address account) external view returns (bool);
 }
 
 
-// Root file: src/Molecule.sol
+// Root file: src/MoleculeAddress.sol
 
 pragma solidity ^0.8.17;
 
 // import "@openzeppelin/contracts/access/Ownable.sol";
-// import "src/IMolecule.sol";
-// import "src/ILogic.sol";
+// import "src/IMoleculeAddress.sol";
+// import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
 
-contract Molecule is Ownable, IMolecule {
+contract Molecule is Ownable, IMoleculeAddress {
     // selected logic combinations
     uint32[] public _selected;
     Status public _status = Status.Gated;
@@ -200,13 +200,13 @@ contract Molecule is Ownable, IMolecule {
     // Enum & Events are defined by the interface
 
     // Use default logic combination
-    function check(bytes memory data) external view returns (bool) {
-        return _check(_selected, data);
+    function check(address account) external view returns (bool) {
+        return _check(_selected, account);
     }
 
     // Use custom logic combination
-    function check(uint32[] memory ids, bytes memory data) external view returns (bool) {
-        return _check(ids, data);
+    function check(uint32[] memory ids, address account) external view returns (bool) {
+        return _check(ids, account);
     }
 
     // Owner only functions
@@ -264,14 +264,14 @@ contract Molecule is Ownable, IMolecule {
     }
 
     // Internal functions
-    function _check(uint32[] memory ids, bytes memory data) internal view returns (bool) {
+    function _check(uint32[] memory ids, address account) internal view returns (bool) {
         if (_status == Status.Blocked) return false;
         if (_status == Status.Bypassed) return true;
         require(ids.length > 0, "Molecule: no logic ids provided");
         for (uint i = 0; i < ids.length; i++) {
             uint32 id = ids[i];
             require (_logicContract[id] != address(0), "MoleculeAML: list not found");
-            bool result = ILogic(_logicContract[id]).check(data);
+            bool result = ILogicAddress(_logicContract[id]).check(account);
             // If the list is NOT an allow list, reverse the result
             if (!_isAllowList[id]) {
                 result = !result;

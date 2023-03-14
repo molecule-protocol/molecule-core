@@ -1,8 +1,10 @@
+// Root file: src/IMoleculeAddress.sol
+
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
 // Interface for Molecule Protocol Smart Contract
-interface IMolecule {
+interface IMoleculeAddress {
     // // selected logic combinations
     // uint32[] private _selected;
 
@@ -30,9 +32,9 @@ interface IMolecule {
     event StatusChanged(Status status);
 
     // Use default logic combination
-    function check(bytes memory data) external view returns (bool);
+    function check(address account) external view returns (bool);
     // Use custom logic combination
-    function check(uint32[] memory ids, bytes memory data) external view returns (bool);
+    function check(uint32[] memory ids, address account) external view returns (bool);
 
     // Owner only functions
     // Control the status of the contract
