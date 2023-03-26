@@ -14,7 +14,7 @@ import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
 // Modified EIP-5643 reference implementation: https://eips.ethereum.org/EIPS/eip-5643
 // -- tokenId is not relevant, checks are on user address instead
 // -- use Molecule Logic Interface for validity check: checks NFT existence and expiration
-contract LogicSubscription is ERC721, ILogicAddress, Ownable {
+contract Subscription is ERC721, ILogicAddress, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
 
