@@ -85,8 +85,16 @@ contract MyContract {
 
 
 ## AML Deployments
-
 Goerli Testnet:
+
+- Molecule AML Deployment: [0x1D2048b4673a7D3C874D5Ca0cB584695Fcc4CC7e](https://goerli.etherscan.io/address/0x1d2048b4673a7d3c874d5ca0cb584695fcc4cc7e)
+
+- US Sanction List: [0x36fcB28EA4F1a227F6FB17005046b59Fb164BEA1](https://goerli.etherscan.io/address/0x36fcb28ea4f1a227f6fb17005046b59fb164bea1)
+
+- EU Sanction List: [0xAB73E85dd23f87E205D1C7C2354a372C3841c829](https://goerli.etherscan.io/address/0xab73e85dd23f87e205d1c7c2354a372c3841c829)
+
+
+Goerli Testnet (Old):
 
 - MoleculeAddress contract : [0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2](https://goerli.etherscan.io/address/0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2)
 

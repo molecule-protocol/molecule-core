@@ -31,6 +31,10 @@ contract Molecule is Ownable, IMoleculeAddress {
         return _check(ids, account);
     }
 
+    function getSelected() external view returns (uint32[] memory) {
+        return _selected;
+    }
+
     // Owner only functions
     function setStatus(Status newStatus) external onlyOwner {
         _status = newStatus;

@@ -14,6 +14,9 @@ import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
 // Modified EIP-5643 reference implementation: https://eips.ethereum.org/EIPS/eip-5643
 // -- tokenId is not relevant, checks are on user address instead
 // -- use Molecule Logic Interface for validity check: checks NFT existence and expiration
+// -- disallow subscription if user is sanctioned
+// -- NFT is actually optional, but it allows subscription to show up on OpenSea/Marketplaces
+//    and able to show up in user's NFT portfolio
 contract Subscription is ERC721, ILogicAddress, Ownable {
     using Counters for Counters.Counter;
     Counters.Counter private _tokenIds;
@@ -35,13 +38,11 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
     event Subscribed(address indexed user, uint64 expiration);
     event Unsubscribed(address indexed user);
 
-    constructor() ERC721("My Subscription", "SUB") {
+    constructor() ERC721("Sample Molecule Subscription", "SUB") {
       // Set the subscription settings
       updatePrice(0.001 ether);
       updateDuration(30 days);
       updateRenewable(true);
-      // Set the molecule access control address (goerli)
-      updateMolecule(0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2);
     }
 
     // Molecule Logic function
@@ -53,7 +54,10 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
 
     // Allow anybody to subscribe or renew for a user
     function subscribe(address user) public payable {
-        require(IMoleculeAddress(_molecule).check(user), "User is sanctioned");
+        // Allow deferred Molecule controller deployment
+        if (_molecule != address(0)) {
+          require(IMoleculeAddress(_molecule).check(user), "User is sanctioned");
+        }
         require(user != address(0), "Invalid address");
         // Only exact amount is accepted
         require(msg.value == _price, "Incorrect amount of Ether sent");
