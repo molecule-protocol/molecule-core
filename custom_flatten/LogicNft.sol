@@ -298,7 +298,7 @@ interface ILogic {
 }
 
 
-// Root file: src/apps/NFT/LogicNFT.sol
+// Root file: src/apps/Allowlist/LogicNFT.sol
 
 pragma solidity ^0.8.17;
 

@@ -122,7 +122,7 @@ interface ILogicAddress {
 }
 
 
-// Root file: src/apps/AML/LogicSanctionList.sol
+// Root file: src/apps/Blocklist/LogicSanctionList.sol
 
 pragma solidity ^0.8.17;
 

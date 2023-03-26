@@ -122,7 +122,7 @@ interface ILogicAddress {
 }
 
 
-// Root file: src/apps/Blocklist/LogicAddressAML.sol
+// Root file: src/apps/Allowlist/LogicAllowlist.sol
 
 pragma solidity ^0.8.17;
 
@@ -132,40 +132,67 @@ pragma solidity ^0.8.17;
 /// @title Molecule Protocol LogicAML contract
 /// @dev This contract implements the ILogicAddress interface with address input
 ///      It will return true if the `account` exists in the List
-contract LogicAML is Ownable, ILogicAddress {
-    constructor() {}
+contract LogicAllowlist is Ownable, ILogicAddress {
+    // enum Type {Blocklist, Allowlist, Data}
 
-    mapping(address => bool) private batchData;
+    // Human readable name of the list
+    string public _name;
+    // Type public _type;
 
-    event ListAdded(address[] addrs);
-    event ListRemoved(address[] addrs);
+    // Change to public if the list is public
+    mapping(address => bool) private _allowlist;
 
-    // To update the LogicAML list
-    function updateList(address[] memory _addAddress)
-        external
-        onlyOwner
-        returns (bool)
-    {
-        for (uint256 i = 0; i < _addAddress.length; i++) {
-            batchData[_addAddress[i]] = true;
+    event ListAdded(address[] addresses);
+    event ListRemoved(address[] addresses);
+
+    event NameSet(string name);
+    // event TypeSet(Type listType);
+
+    constructor(string memory name_) {
+        setName(name_);
+        // setType(Type.Allowlist);
+    }
+
+    // Returns true if the address is sanctioned
+    function check(address account) external view returns (bool) {
+        return _allowlist[account];
+    }
+
+    function getName() external view returns (string memory) {
+        return _name;
+    }
+
+    // function getType() external view returns (Type) {
+    //     return _type;
+    // }
+
+    // Owner only functions
+    // Add addresses to the List
+    function addBatch(address[] memory addresses) external onlyOwner returns (bool) {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            _allowlist[addresses[i]] = true;
         }
-        emit ListAdded(_addAddress);
+        emit ListAdded(addresses);
         return true;
     }
 
-    // Remove address from the List
-    function removeFromList(address[] memory _removeAddress)
-        external
-        onlyOwner
-    {
-        for (uint256 i = 0; i < _removeAddress.length; i++) {
-            batchData[_removeAddress[i]] = false;
+    // Remove addresses from the List
+    function removeBatch(address[] memory addresses) external onlyOwner {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            _allowlist[addresses[i]] = false;
         }
-        emit ListRemoved(_removeAddress);
+        emit ListRemoved(addresses);
     }
 
-    // checks whether the address is present inside the list and returns true if its present
-    function check(address account) external view returns (bool) {
-        return batchData[account];
+    // Set the name of the list
+    function setName(string memory name_) public onlyOwner {
+        _name = name_;
+        emit NameSet(name_);
     }
+
+    // Set the type of the list
+    // function setType(Type listType) public onlyOwner {
+    //     _type = listType;
+    //     emit TypeSet(listType);
+    // }
 }

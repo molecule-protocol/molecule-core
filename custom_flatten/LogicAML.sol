@@ -122,7 +122,7 @@ interface ILogic {
 }
 
 
-// Root file: src/apps/AML/LogicAML.sol
+// Root file: src/apps/Blocklist/LogicAML.sol
 
 pragma solidity ^0.8.17;
 

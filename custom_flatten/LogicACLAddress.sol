@@ -122,50 +122,57 @@ interface ILogicAddress {
 }
 
 
-// Root file: src/apps/Blocklist/LogicAddressAML.sol
+// Root file: src/LogicACLAddress.sol
 
 pragma solidity ^0.8.17;
 
 // import "@openzeppelin/contracts/access/Ownable.sol";
 // import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
 
-/// @title Molecule Protocol LogicAML contract
+/// @title Molecule Protocol Access Control List
 /// @dev This contract implements the ILogicAddress interface with address input
 ///      It will return true if the `account` exists in the List
-contract LogicAML is Ownable, ILogicAddress {
-    constructor() {}
+contract LogicACL is Ownable, ILogicAddress {
+    // Human readable name of the list
+    string public _name;
 
-    mapping(address => bool) private batchData;
+    // Change to public if the list is public
+    mapping(address => bool) private _list;
 
-    event ListAdded(address[] addrs);
-    event ListRemoved(address[] addrs);
+    event ListAdded(address[] addresses);
+    event ListRemoved(address[] addresses);
+    event NameSet(string name);
 
-    // To update the LogicAML list
-    function updateList(address[] memory _addAddress)
-        external
-        onlyOwner
-        returns (bool)
-    {
-        for (uint256 i = 0; i < _addAddress.length; i++) {
-            batchData[_addAddress[i]] = true;
+    constructor(string memory name_) {
+        setName(name_);
+    }
+
+    // Returns true if the address is sanctioned
+    function check(address account) external view returns (bool) {
+        return _list[account];
+    }
+
+    // Owner only functions
+    // Add addresses to the List
+    function addBatch(address[] memory addresses) external onlyOwner returns (bool) {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            _list[addresses[i]] = true;
         }
-        emit ListAdded(_addAddress);
+        emit ListAdded(addresses);
         return true;
     }
 
-    // Remove address from the List
-    function removeFromList(address[] memory _removeAddress)
-        external
-        onlyOwner
-    {
-        for (uint256 i = 0; i < _removeAddress.length; i++) {
-            batchData[_removeAddress[i]] = false;
+    // Remove addresses from the List
+    function removeBatch(address[] memory addresses) external onlyOwner {
+        for (uint256 i = 0; i < addresses.length; i++) {
+            _list[addresses[i]] = false;
         }
-        emit ListRemoved(_removeAddress);
+        emit ListRemoved(addresses);
     }
 
-    // checks whether the address is present inside the list and returns true if its present
-    function check(address account) external view returns (bool) {
-        return batchData[account];
+    // Set the name of the list
+    function setName(string memory name_) public onlyOwner {
+        _name = name_;
+        emit NameSet(name_);
     }
 }

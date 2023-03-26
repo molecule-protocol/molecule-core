@@ -298,7 +298,7 @@ interface ILogicAddress {
 }
 
 
-// Root file: src/apps/NFT/LogicAddressNFT.sol
+// Root file: src/apps/Allowlist/LogicAddressNFT.sol
 
 pragma solidity ^0.8.17;
 
