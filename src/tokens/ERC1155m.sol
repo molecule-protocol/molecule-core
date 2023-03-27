@@ -2,7 +2,6 @@
 
 pragma solidity ^0.8.17;
 
-// ERC20 token implementation
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
@@ -35,8 +34,15 @@ contract ERC1155m is ERC1155, Ownable {
         _burn(account, id, amount);
     }
 
-    // Transfer function
-    function _beforeTokenTransfer(address operator, address from, address to, uint256[] memory ids, uint256[] memory amounts, bytes memory data) internal virtual override {
+    // Transfer function: note this is used by all mint/burn/transfer functions
+    function _beforeTokenTransfer(
+        address operator,
+        address from,
+        address to,
+        uint256[] memory ids,
+        uint256[] memory amounts,
+        bytes memory data
+    ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
           require(IMoleculeAddress(_moleculeTransfer).check(from), "ERC1155m: sender not allowed to transfer");
           require(IMoleculeAddress(_moleculeTransfer).check(to), "ERC1155m: recipient not allowed to receive");
@@ -55,6 +61,7 @@ contract ERC1155m is ERC1155, Ownable {
     // Owner only functions
     // Update molecule address
     function updateMolecule(address molecule, MoleculeType mtype) external onlyOwner {
+        // allows 0x0 address to be set to remove molecule access control
         if (mtype == MoleculeType.Approve) {
           _moleculeApprove = molecule;
         } else if (mtype == MoleculeType.Burn) {

@@ -56,6 +56,7 @@ contract ERC20m is ERC20, Ownable {
     // Owner only functions
     // Molecule ERC20 token
     function updateMolecule(address molecule, MoleculeType mtype) external onlyOwner {
+        // allows 0x0 address to be set to remove molecule access control
         if (mtype == MoleculeType.Approve) {
           _moleculeApprove = molecule;
         } else if (mtype == MoleculeType.Burn) {
