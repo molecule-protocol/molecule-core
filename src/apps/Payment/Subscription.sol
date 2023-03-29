@@ -5,8 +5,8 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
-import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
+import "../../ILogicAddress.sol";
+import "../../IMoleculeAddress.sol";
 
 // Only accept ETH for now
 // Each address can only have 1 token
@@ -39,10 +39,10 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
     event Unsubscribed(address indexed user);
 
     constructor() ERC721("Sample Molecule Subscription", "SUB") {
-      // Set the subscription settings
-      updatePrice(0.001 ether);
-      updateDuration(30 days);
-      updateRenewable(true);
+        // Set the subscription settings
+        updatePrice(0.001 ether);
+        updateDuration(30 days);
+        updateRenewable(true);
     }
 
     // Molecule Logic function
@@ -56,7 +56,10 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
     function subscribe(address user) public payable {
         // Allow deferred Molecule controller deployment
         if (_molecule != address(0)) {
-          require(IMoleculeAddress(_molecule).check(user), "User is sanctioned");
+            require(
+                IMoleculeAddress(_molecule).check(user),
+                "User is sanctioned"
+            );
         }
         require(user != address(0), "Invalid address");
         // Only exact amount is accepted
@@ -64,14 +67,14 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
 
         // If the user does not have a subscription, mint a new NFT
         if (IERC721(address(this)).balanceOf(user) == 0) {
-          _tokenIds.increment();
-          uint256 newTokenId = _tokenIds.current();
-          _safeMint(user, newTokenId);
-          _expirations[user] = uint64(block.timestamp + _duration);
+            _tokenIds.increment();
+            uint256 newTokenId = _tokenIds.current();
+            _safeMint(user, newTokenId);
+            _expirations[user] = uint64(block.timestamp + _duration);
         } else {
-          // If the user has a subscription, check if it is renewable
-          require(_renewable, "Subscription is not renewable");
-          _expirations[user] += _duration;
+            // If the user has a subscription, check if it is renewable
+            require(_renewable, "Subscription is not renewable");
+            _expirations[user] += _duration;
         }
 
         // Subscribe or renew emits the same event
@@ -79,8 +82,14 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
     }
 
     function unsubscribe() public {
-        require(IERC721(address(this)).balanceOf(msg.sender) > 0, "User does not have a subscription");
-        require(_expirations[msg.sender] > block.timestamp, "Subscription has already expired");
+        require(
+            IERC721(address(this)).balanceOf(msg.sender) > 0,
+            "User does not have a subscription"
+        );
+        require(
+            _expirations[msg.sender] > block.timestamp,
+            "Subscription has already expired"
+        );
 
         // We do NOT burn the NFT, only update the expirations
         _expirations[msg.sender] = 0;

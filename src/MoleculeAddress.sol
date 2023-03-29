@@ -2,8 +2,8 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
-import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
+import "./IMoleculeAddress.sol";
+import "./ILogicAddress.sol";
 
 contract Molecule is Ownable, IMoleculeAddress {
     // selected logic combinations
@@ -27,7 +27,10 @@ contract Molecule is Ownable, IMoleculeAddress {
     }
 
     // Use custom logic combination
-    function check(uint32[] memory ids, address account) external view returns (bool) {
+    function check(
+        uint32[] memory ids,
+        address account
+    ) external view returns (bool) {
         return _check(ids, account);
     }
 
@@ -41,11 +44,13 @@ contract Molecule is Ownable, IMoleculeAddress {
         emit StatusChanged(newStatus);
     }
 
-
     // Preselect logic combinations
     function select(uint32[] memory ids) external onlyOwner {
         for (uint i = 0; i < ids.length; i++) {
-            require(_logicContract[ids[i]] != address(0), "Molecule: logic id not found");
+            require(
+                _logicContract[ids[i]] != address(0),
+                "Molecule: logic id not found"
+            );
         }
         _selected = ids;
         emit Selected(ids);
@@ -73,12 +78,30 @@ contract Molecule is Ownable, IMoleculeAddress {
         string[] memory names,
         bool[] memory reverseLogics
     ) external onlyOwner {
-        require (ids.length == logicContracts.length, "MoleculeAML: ids and logicContracts must be same length");
-        require (ids.length == isAllowLists.length, "MoleculeAML: ids and isAllowLists must be same length");
-        require (ids.length == names.length, "MoleculeAML: ids and names must be same length");
-        require (ids.length == reverseLogics.length, "MoleculeAML: ids and reverseLogics must be same length");
+        require(
+            ids.length == logicContracts.length,
+            "MoleculeAML: ids and logicContracts must be same length"
+        );
+        require(
+            ids.length == isAllowLists.length,
+            "MoleculeAML: ids and isAllowLists must be same length"
+        );
+        require(
+            ids.length == names.length,
+            "MoleculeAML: ids and names must be same length"
+        );
+        require(
+            ids.length == reverseLogics.length,
+            "MoleculeAML: ids and reverseLogics must be same length"
+        );
         for (uint i = 0; i < ids.length; i++) {
-            _addLogic(ids[i], logicContracts[i], isAllowLists[i], names[i], reverseLogics[i]);
+            _addLogic(
+                ids[i],
+                logicContracts[i],
+                isAllowLists[i],
+                names[i],
+                reverseLogics[i]
+            );
         }
     }
 
@@ -90,13 +113,19 @@ contract Molecule is Ownable, IMoleculeAddress {
     }
 
     // Internal functions
-    function _check(uint32[] memory ids, address account) internal view returns (bool) {
+    function _check(
+        uint32[] memory ids,
+        address account
+    ) internal view returns (bool) {
         if (_status == Status.Blocked) return false;
         if (_status == Status.Bypassed) return true;
         require(ids.length > 0, "Molecule: no logic ids provided");
         for (uint i = 0; i < ids.length; i++) {
             uint32 id = ids[i];
-            require (_logicContract[id] != address(0), "MoleculeAML: list not found");
+            require(
+                _logicContract[id] != address(0),
+                "MoleculeAML: list not found"
+            );
             bool result = ILogicAddress(_logicContract[id]).check(account);
             // If the list is NOT an allow list, reverse the result
             if (!_isAllowList[id]) {
@@ -121,8 +150,14 @@ contract Molecule is Ownable, IMoleculeAddress {
         string memory name,
         bool reverseLogic
     ) internal onlyOwner {
-        require(_logicContract[id] == address(0), "Molecule: logic id already exists");
-        require(logicContract != address(0), "Molecule: logic contract address cannot be zero");
+        require(
+            _logicContract[id] == address(0),
+            "Molecule: logic id already exists"
+        );
+        require(
+            logicContract != address(0),
+            "Molecule: logic contract address cannot be zero"
+        );
         _logicContract[id] = logicContract;
         _isAllowList[id] = isAllowList; // sanction list should always be false (blocklist)
         _name[id] = name;
@@ -131,7 +166,10 @@ contract Molecule is Ownable, IMoleculeAddress {
     }
 
     function _removeLogic(uint32 id) internal onlyOwner {
-        require(_logicContract[id] != address(0), "Molecule: logic id not found");
+        require(
+            _logicContract[id] != address(0),
+            "Molecule: logic id not found"
+        );
         delete _logicContract[id];
         delete _isAllowList[id];
         delete _name[id];
