@@ -19,7 +19,6 @@ contract LogicAllowlist is Ownable, ILogicAddress {
 
     event ListAdded(address[] addresses);
     event ListRemoved(address[] addresses);
-
     event NameSet(string name);
 
     // event TypeSet(Type listType);
@@ -44,9 +43,7 @@ contract LogicAllowlist is Ownable, ILogicAddress {
 
     // Owner only functions
     // Add addresses to the List
-    function addBatch(
-        address[] memory addresses
-    ) external onlyOwner returns (bool) {
+    function addBatch(address[] memory addresses) external onlyOwner returns (bool) {
         for (uint256 i = 0; i < addresses.length; i++) {
             _allowlist[addresses[i]] = true;
         }

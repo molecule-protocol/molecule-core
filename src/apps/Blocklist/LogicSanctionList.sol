@@ -44,9 +44,7 @@ contract LogicSanctionList is Ownable, ILogicAddress {
 
     // Owner only functions
     // Add addresses to the List
-    function addBatch(
-        address[] memory addresses
-    ) external onlyOwner returns (bool) {
+    function addBatch(address[] memory addresses) external onlyOwner returns (bool) {
         for (uint256 i = 0; i < addresses.length; i++) {
             _sanctioned[addresses[i]] = true;
         }

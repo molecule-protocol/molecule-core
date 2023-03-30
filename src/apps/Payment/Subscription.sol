@@ -19,6 +19,7 @@ import "../../IMoleculeAddress.sol";
 //    and able to show up in user's NFT portfolio
 contract Subscription is ERC721, ILogicAddress, Ownable {
     using Counters for Counters.Counter;
+
     Counters.Counter private _tokenIds;
 
     uint256 public _price;
@@ -56,10 +57,7 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
     function subscribe(address user) public payable {
         // Allow deferred Molecule controller deployment
         if (_molecule != address(0)) {
-            require(
-                IMoleculeAddress(_molecule).check(user),
-                "User is sanctioned"
-            );
+            require(IMoleculeAddress(_molecule).check(user), "User is sanctioned");
         }
         require(user != address(0), "Invalid address");
         // Only exact amount is accepted
@@ -82,14 +80,8 @@ contract Subscription is ERC721, ILogicAddress, Ownable {
     }
 
     function unsubscribe() public {
-        require(
-            IERC721(address(this)).balanceOf(msg.sender) > 0,
-            "User does not have a subscription"
-        );
-        require(
-            _expirations[msg.sender] > block.timestamp,
-            "Subscription has already expired"
-        );
+        require(IERC721(address(this)).balanceOf(msg.sender) > 0, "User does not have a subscription");
+        require(_expirations[msg.sender] > block.timestamp, "Subscription has already expired");
 
         // We do NOT burn the NFT, only update the expirations
         _expirations[msg.sender] = 0;

@@ -16,9 +16,7 @@ contract LogicAML is Ownable, ILogic {
     event ListRemoved(address[] addrs);
 
     // To update the LogicAML list
-    function updateList(
-        address[] memory _addAddress
-    ) external onlyOwner returns (bool) {
+    function updateList(address[] memory _addAddress) external onlyOwner returns (bool) {
         for (uint256 i = 0; i < _addAddress.length; i++) {
             batchData[_addAddress[i]] = true;
         }
@@ -27,9 +25,7 @@ contract LogicAML is Ownable, ILogic {
     }
 
     // Remove address from the List
-    function removeFromList(
-        address[] memory _removeAddress
-    ) external onlyOwner {
+    function removeFromList(address[] memory _removeAddress) external onlyOwner {
         for (uint256 i = 0; i < _removeAddress.length; i++) {
             batchData[_removeAddress[i]] = false;
         }

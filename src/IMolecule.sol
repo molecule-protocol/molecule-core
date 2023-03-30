@@ -26,11 +26,7 @@ interface IMolecule {
 
     // event emitted when a new list is added
     event LogicAdded(
-        uint32 indexed id,
-        address indexed logicContract,
-        bool isAllowList,
-        string name,
-        bool reverseLogic
+        uint32 indexed id, address indexed logicContract, bool isAllowList, string name, bool reverseLogic
     );
     // event emitted when a list is removed
     event LogicRemoved(uint32 indexed id);
@@ -43,10 +39,7 @@ interface IMolecule {
     function check(bytes memory data) external view returns (bool);
 
     // Use custom logic combination
-    function check(
-        uint32[] memory ids,
-        bytes memory data
-    ) external view returns (bool);
+    function check(uint32[] memory ids, bytes memory data) external view returns (bool);
 
     // Owner only functions
     // Control the status of the contract
@@ -56,13 +49,8 @@ interface IMolecule {
     function select(uint32[] memory ids) external;
 
     // Add a new logic
-    function addLogic(
-        uint32 id,
-        address logicContract,
-        bool isAllowList,
-        string memory name,
-        bool reverseLogic
-    ) external;
+    function addLogic(uint32 id, address logicContract, bool isAllowList, string memory name, bool reverseLogic)
+        external;
 
     // Remove a logic
     function removeLogic(uint32 id) external;

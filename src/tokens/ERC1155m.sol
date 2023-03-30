@@ -25,27 +25,16 @@ contract ERC1155m is ERC1155, Ownable {
 
     constructor(string memory uri) ERC1155(uri) {}
 
-    function mint(
-        address account,
-        uint256 id,
-        uint256 amount,
-        bytes memory data
-    ) external {
+    function mint(address account, uint256 id, uint256 amount, bytes memory data) external {
         if (_moleculeMint != address(0)) {
-            require(
-                IMoleculeAddress(_moleculeMint).check(account),
-                "ERC1155m: account not allowed to mint"
-            );
+            require(IMoleculeAddress(_moleculeMint).check(account), "ERC1155m: account not allowed to mint");
         }
         _mint(account, id, amount, data);
     }
 
     function burn(address account, uint256 id, uint256 amount) external {
         if (_moleculeBurn != address(0)) {
-            require(
-                IMoleculeAddress(_moleculeBurn).check(account),
-                "ERC1155m: account not allowed to burn"
-            );
+            require(IMoleculeAddress(_moleculeBurn).check(account), "ERC1155m: account not allowed to burn");
         }
         _burn(account, id, amount);
     }
@@ -60,39 +49,23 @@ contract ERC1155m is ERC1155, Ownable {
         bytes memory data
     ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
-            require(
-                IMoleculeAddress(_moleculeTransfer).check(from),
-                "ERC1155m: sender not allowed to transfer"
-            );
-            require(
-                IMoleculeAddress(_moleculeTransfer).check(to),
-                "ERC1155m: recipient not allowed to receive"
-            );
+            require(IMoleculeAddress(_moleculeTransfer).check(from), "ERC1155m: sender not allowed to transfer");
+            require(IMoleculeAddress(_moleculeTransfer).check(to), "ERC1155m: recipient not allowed to receive");
         }
         super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
     }
 
     // Approve function
-    function _setApprovalForAll(
-        address owner,
-        address operator,
-        bool approved
-    ) internal virtual override {
+    function _setApprovalForAll(address owner, address operator, bool approved) internal virtual override {
         if (_moleculeApprove != address(0)) {
-            require(
-                IMoleculeAddress(_moleculeApprove).check(operator),
-                "ERC1155m: owner not allowed to approve"
-            );
+            require(IMoleculeAddress(_moleculeApprove).check(operator), "ERC1155m: owner not allowed to approve");
         }
         super._setApprovalForAll(owner, operator, approved);
     }
 
     // Owner only functions
     // Update molecule address
-    function updateMolecule(
-        address molecule,
-        MoleculeType mtype
-    ) external onlyOwner {
+    function updateMolecule(address molecule, MoleculeType mtype) external onlyOwner {
         // allows 0x0 address to be set to remove molecule access control
         if (mtype == MoleculeType.Approve) {
             _moleculeApprove = molecule;
