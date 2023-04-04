@@ -104,7 +104,7 @@ Goerli Testnet (Old):
 
 
 
-## Comparison on  Batch updations (Max set of 511 address) 
+## Comparison on  Batch updations  
 
 |Task | chain | Transaction Gas Amount (Gas usage) | Gas price  | Cost |
 |--- | --- | ---- | ---- | ----|
