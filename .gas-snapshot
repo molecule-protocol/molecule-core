@@ -1,0 +1,4 @@
+ERC721MTest:testTokenLifeTimeWithMolecule() (gas: 330828)
+ERC721MTest:testTokenLifeTimeWithoutMolecule() (gas: 52133)
+ERC721MSTest:testTokenLifeTimeWithMolecule() (gas: 334780)
+ERC721MSTest:testTokenLifetimeWithoutMolecule() (gas: 52060)
