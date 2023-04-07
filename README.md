@@ -99,4 +99,3 @@ Goerli Testnet (Old):
 - LogicAddressAML US (ID:840) contract address : [0x6ff3F2DAa62e11D6fEC233410d2151948234d496](https://goerli.etherscan.io/address/0x6ff3F2DAa62e11D6fEC233410d2151948234d496)
 
 - LogicAddressAML UK (ID:826) contract address :[0x3daD441A8C07eF64AA22e6114c39d690a098783F](https://goerli.etherscan.io/address/0x3daD441A8C07eF64AA22e6114c39d690a098783F)
-
