@@ -4,10 +4,15 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
+import "../IMoleculeAddress.sol";
 
 contract ERC721m is ERC721, Ownable {
-    enum MoleculeType {Approve, Burn, Mint, Transfer}
+    enum MoleculeType {
+        Approve,
+        Burn,
+        Mint,
+        Transfer
+    }
 
     // Molecule addresses
     address public _moleculeApprove;

@@ -9,7 +9,11 @@ interface IMolecule {
     // Gated: gated by logic
     // Blocked: always return `false`
     // Bypassed: always return `true`
-    enum Status { Gated, Blocked, Bypassed }
+    enum Status {
+        Gated,
+        Blocked,
+        Bypassed
+    }
 
     // // list id => atomic logic contract address
     // mapping(uint32 => address) private _logicContract;
@@ -21,7 +25,9 @@ interface IMolecule {
     // mapping(uint32 => bool) private _reverseLogic; // NOT used, always false
 
     // event emitted when a new list is added
-    event LogicAdded(uint32 indexed id, address indexed logicContract, bool isAllowList, string name, bool reverseLogic);
+    event LogicAdded(
+        uint32 indexed id, address indexed logicContract, bool isAllowList, string name, bool reverseLogic
+    );
     // event emitted when a list is removed
     event LogicRemoved(uint32 indexed id);
     // event emitted when a new logic combination is selected
@@ -31,20 +37,33 @@ interface IMolecule {
 
     // Use default logic combination
     function check(bytes memory data) external view returns (bool);
+
     // Use custom logic combination
     function check(uint32[] memory ids, bytes memory data) external view returns (bool);
 
     // Owner only functions
     // Control the status of the contract
     function setStatus(Status status) external;
+
     // Preselect logic combinations
     function select(uint32[] memory ids) external;
+
     // Add a new logic
-    function addLogic(uint32 id, address logicContract, bool isAllowList, string memory name, bool reverseLogic) external;
+    function addLogic(uint32 id, address logicContract, bool isAllowList, string memory name, bool reverseLogic)
+        external;
+
     // Remove a logic
     function removeLogic(uint32 id) external;
+
     // Add new logics in batch
-    function addLogicBatch(uint32[] memory ids, address[] memory logicContracts, bool[] memory isAllowLists, string[] memory names, bool[] memory reverseLogics) external;
+    function addLogicBatch(
+        uint32[] memory ids,
+        address[] memory logicContracts,
+        bool[] memory isAllowLists,
+        string[] memory names,
+        bool[] memory reverseLogics
+    ) external;
+
     // Remove logics in batch
     function removeLogicBatch(uint32[] memory ids) external;
 }

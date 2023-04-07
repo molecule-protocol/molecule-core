@@ -2,7 +2,7 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "@moleculeprotocol/molecule-core/src/ILogicAddress.sol";
+import "../../ILogicAddress.sol";
 
 /// @title Molecule Protocol LogicAML contract
 /// @dev This contract implements the ILogicAddress interface with address input
@@ -19,8 +19,8 @@ contract LogicAllowlist is Ownable, ILogicAddress {
 
     event ListAdded(address[] addresses);
     event ListRemoved(address[] addresses);
-
     event NameSet(string name);
+
     // event TypeSet(Type listType);
 
     constructor(string memory name_) {
