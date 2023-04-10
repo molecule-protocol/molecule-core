@@ -558,10 +558,12 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@moleculeprotocol/molecule-core@^2.1.0":
-  version "2.1.2"
-  resolved "https://registry.yarnpkg.com/@moleculeprotocol/molecule-core/-/molecule-core-2.1.2.tgz#349331d229bca4c67760bff49a80d6b5c4e369f8"
-  integrity sha512-SlkZ/EDNq2hIpEswX9gTSBaDEsgSb+v8EiRAFn5MgAhkwDM1uRUG1ZW480bNNyZZrNDd+k5oeCMKoDmtT0Ty5A==
+"@moleculeprotocol/molecule-core@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@moleculeprotocol/molecule-core/-/molecule-core-3.0.0.tgz#55ee5843199dc56f8d7b91a65251613fe0acf5ee"
+  integrity sha512-qpZJOgHKeg0gXmMDgKiiseTPu/Z+7+lYf5MUIoPBxop0nqxVWvbMF1COZo8UvZCt2cTQ73RWG+k7BhFQljtwlA==
+  dependencies:
+    solmate "^6.7.0"
 
 "@morgan-stanley/ts-mocking-bird@^0.6.2":
   version "0.6.4"

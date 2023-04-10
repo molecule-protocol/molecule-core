@@ -2,8 +2,8 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/IMoleculeController.sol";
-import "./interfaces/IMoleculeLogic.sol";
+import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeController.sol";
+import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol";
 
 /// @title Molecule Protocol Controller Contract
 /// @dev This contract implements the IMoleculeController interface

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "./interfaces/IMoleculeLogic.sol";
+import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol";
 
 /// @title Molecule Protocol Logic List
 /// @dev This contract implements the ILogicAddress interface with address input

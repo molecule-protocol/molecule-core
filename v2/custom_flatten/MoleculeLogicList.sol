@@ -112,7 +112,7 @@ abstract contract Ownable is Context {
 }
 
 
-// Dependency file: v2/contracts/interfaces/IMoleculeLogic.sol
+// Dependency file: @moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol
 
 // pragma solidity ^0.8.17;
 
@@ -137,7 +137,7 @@ interface IMoleculeLogic {
 pragma solidity ^0.8.17;
 
 // import "@openzeppelin/contracts/access/Ownable.sol";
-// import "v2/contracts/interfaces/IMoleculeLogic.sol";
+// import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol";
 
 /// @title Molecule Protocol Logic List
 /// @dev This contract implements the ILogicAddress interface with address input
