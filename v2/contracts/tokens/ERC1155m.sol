@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/Strings.sol";
 import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol";
 
 // Molecule ERC1155 token
-contract ERC1155m is ERC1155, Ownable {
+abstract contract ERC1155m is ERC1155, Ownable {
     enum MoleculeType {
         Approve,
         Burn,

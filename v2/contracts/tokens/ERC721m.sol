@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol";
 
-contract ERC721m is ERC721, Ownable {
+abstract contract ERC721m is ERC721, Ownable {
     enum MoleculeType {
         Approve,
         Burn,

@@ -9,7 +9,7 @@ import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.s
 ///      It will return true if the `account` exists in the List
 abstract contract MoleculeLogicList is Ownable, IMoleculeLogic {
     // Human readable name of the list
-    string public _name;
+    string public _logicName;
     // True if the list is an allowlist, false if it is a Blocklist
     bool public _isAllowlist;
 
@@ -21,13 +21,13 @@ abstract contract MoleculeLogicList is Ownable, IMoleculeLogic {
 
     constructor(string memory name_, bool isAllowlist_) {
         // Name and the allowlist/blocklist can only be set during creation
-        _name = name_;
+        _logicName = name_;
         _isAllowlist = isAllowlist_;
         emit LogicCreated(name_, isAllowlist_);
     }
 
-    function name() external view returns (string memory) {
-        return _name;
+    function logicName() external view returns (string memory) {
+        return _logicName;
     }
 
     function isAllowlist() external view returns (bool) {

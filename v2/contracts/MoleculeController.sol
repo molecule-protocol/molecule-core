@@ -18,7 +18,7 @@ abstract contract MoleculeController is Ownable, IMoleculeController {
     // list id => allow- (true) or block- (false) list
     mapping(uint32 => bool) private _isAllowList;
     // list id => list name
-    mapping(uint32 => string) private _name;
+    mapping(uint32 => string) private _logicName;
     // list id => logic modifier: add negation if true or false for as-is
     mapping(uint32 => bool) private _reverseLogic;
 
@@ -134,19 +134,19 @@ abstract contract MoleculeController is Ownable, IMoleculeController {
         _isAllowList[id] = IMoleculeLogic(logicContract).isAllowlist();
         // if a name is provided, use it, otherwise use the name from the logic contract
         if (bytes(name).length > 0) {
-            _name[id] = name;
+            _logicName[id] = name;
         } else {
-            _name[id] = IMoleculeLogic(logicContract).name();
+            _logicName[id] = IMoleculeLogic(logicContract).logicName();
         }
         _reverseLogic[id] = reverseLogic; // NOT used, should always be false
-        emit LogicAdded(id, logicContract, _isAllowList[id], name, reverseLogic);
+        emit LogicAdded(id, logicContract, _isAllowList[id], _logicName[id], reverseLogic);
     }
 
     function _removeLogic(uint32 id) internal onlyOwner {
         require(_logicContract[id] != address(0), "Molecule: logic id not found");
         delete _logicContract[id];
         delete _isAllowList[id];
-        delete _name[id];
+        delete _logicName[id];
         delete _reverseLogic[id];
         emit LogicRemoved(id);
     }

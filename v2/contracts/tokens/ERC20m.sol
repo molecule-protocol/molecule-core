@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@moleculeprotocol/molecule-core/v2/contracts/interfaces/IMoleculeLogic.sol";
 
 // Molecule ERC20 token
-contract ERC20m is ERC20, Ownable {
+abstract contract ERC20m is ERC20, Ownable {
     enum MoleculeType {
         Approve,
         Burn,
