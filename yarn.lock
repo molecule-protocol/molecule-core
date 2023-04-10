@@ -558,10 +558,10 @@
     "@jridgewell/resolve-uri" "^3.0.3"
     "@jridgewell/sourcemap-codec" "^1.4.10"
 
-"@moleculeprotocol/molecule-core@^3.0.0":
-  version "3.0.0"
-  resolved "https://registry.yarnpkg.com/@moleculeprotocol/molecule-core/-/molecule-core-3.0.0.tgz#55ee5843199dc56f8d7b91a65251613fe0acf5ee"
-  integrity sha512-qpZJOgHKeg0gXmMDgKiiseTPu/Z+7+lYf5MUIoPBxop0nqxVWvbMF1COZo8UvZCt2cTQ73RWG+k7BhFQljtwlA==
+"@moleculeprotocol/molecule-core@^3.1.0":
+  version "3.1.0"
+  resolved "https://registry.yarnpkg.com/@moleculeprotocol/molecule-core/-/molecule-core-3.1.0.tgz#44accfa1873d4297a9a3ef42d3f776aa9deb8f2f"
+  integrity sha512-jAn4D8woF3BIE8wJsXBMnN1/YO7Skw4DgqAfTGLmjQNACrTPjEmgkmzL1rM7OdOTiZMS85lqm1pW5Dw/0LfhCg==
   dependencies:
     solmate "^6.7.0"
 
