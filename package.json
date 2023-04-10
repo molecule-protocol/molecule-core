@@ -1,7 +1,7 @@
 {
   "name": "@moleculeprotocol/molecule-core",
   "description": "Molecule Protocol Core Contracts",
-  "version": "3.0.2",
+  "version": "3.1.0",
   "author": "Calvin Pak <calvinpak@gmail.com>",
   "scripts": {
     "build": "waffle",
@@ -11,7 +11,7 @@
   },
   "license": "MIT",
   "devDependencies": {
-    "@moleculeprotocol/molecule-core": "^3.0.0",
+    "@moleculeprotocol/molecule-core": "^3.1.0",
     "@openzeppelin/contracts": "^4.6.0",
     "@openzeppelin/contracts-upgradeable": "^4.8.0",
     "@types/chai": "^4.3.4",
