@@ -1,7 +1,7 @@
 {
   "name": "@moleculeprotocol/molecule-core",
   "description": "Molecule Protocol Core Contracts",
-  "version": "2.2.0",
+  "version": "3.0.0",
   "author": "Calvin Pak <calvinpak@gmail.com>",
   "scripts": {
     "build": "waffle",
