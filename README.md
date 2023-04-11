@@ -8,27 +8,27 @@
 
 ## What is the Molecule Protocol?
 
-The Molecule Protocol defines a set of smart contracts for custom rule engine construction.
+The Molecule Protocol defines a set of smart contracts for custom rule engine construction for your smart contracts.
 
-The Molecule.sol smart contract serves as the controller smart contract, while Logic\*.sol smart contracts are for rule construction.
+The `MoleculeController.sol` smart contract serves as the controller smart contract, while `MoleculeLogic\*.sol` smart contracts are for rule construction.
 
-By adding and removing rules from the Molecule smart contract, it creates a rule engine that returns true or false. This allows for the construction of both simple and complex logics.
+By adding and removing rules from the Molecule Controller smart contract, it creates a rule engine that returns `true` or `false`. This allows for the construction of both simple and complex logics.
 
-Each Molecule smart contract also includes a status setting. It can be set to always return true (bypassed), always return false (blocked), or return a boolean based on the rule engine (gated).
+Each Molecule smart contract also includes a status setting. It can be set to always return true (`bypassed`), always return false (`blocked`), or return a boolean based on the rule engine (`gated`).
 
 ## What is the Molecule Protocol used for?
 
-By placing one or more require statements in functions, you can gate the functions using one or more rule engines. The following are some sample use cases:
+By placing one or more `require` statements in functions, you can gate the functions using your custom rule engines. The following are some sample use cases:
 
-### NFT Mint Whitelisting
+### NFT Mint Allowlist (Whitelist)
 
-Whitelisting is a common use case for NFT minting. By using the Molecule Protocol in the NFT smart contract, the whitelist can be added and managed easily. After the mint, the Molecule Protocol smart contract can be set to bypass entirely.
+Allow list (whitelist) is a common use case for NFT minting. By using the Molecule Protocol in the NFT smart contract, the allow list can be added and managed easily. After the mint, the Molecule Protocol smart contract can be set to bypass entirely.
 
 ### On-Chain Compliance
 
 AML: Most DeFi protocols enforce AML (Anti-Money-Laundering) at the UI level only. The Molecule Protocol enables AML checks at the smart contract level, ensuring no unauthorized counterparties at any time.
-KYC: NFT whitelisting can also be used for KYC (Know-Your-Customer) enforcement.
-With the Molecule Protocol, any DeFi project can achieve compliance with just one line of code (the require statement).
+
+KYC: NFT allow lists can also be used for KYC (Know-Your-Customer) enforcement. With the Molecule Protocol, any DeFi project can achieve compliance as simple as adding one line of code (the `require` statement).
 
 ### Soulbound and Conditional Soulbound Tokens
 
@@ -40,17 +40,17 @@ Implementing these with the Molecule Protocol is trivial and more flexible than 
 
 ### Subscription Payment
 
-Proof of payment can be implemented with whitelisting logic. By adding this payment check, proof of payment and even subscription payment can be verified before allowing smart contract executions. By decoupling the payment at the smart contract level, it enables subscriptions, installments, and many other payment options for DeFi projects.
+Proof of payment can be implemented with adding an allowlist logic. By adding this payment check, proof of payment and even subscription payment can be verified before allowing smart contract executions. By decoupling the payment at the smart contract level, it enables subscriptions, installments, and many other payment options for DeFi projects.
 
 ## Ecosystem
 
-Features like payment services, AML, and KYC are common use cases. Service providers can publish their Molecule Smart Contract address and allow any project to use their service. They can also use the Molecule Protocol to implement payment services, essentially enabling the SaaS model on-chain.
+Features like payment services, AML, and KYC are common use cases. Service providers can publish their Molecule Smart Contract address and allow any project to use their services. They can also use the Molecule Protocol to implement payment services, essentially enabling the SaaS model on-chain.
 
 By standardizing the construction of rule engines using the Molecule Protocol, even complex rules can be implemented easily and in a composable way. This removes duplicate implementations and maximizes value for service providers.
 
 ## Contribution
 
-Can you think of more use cases that the Molecule Protocol can support? Please describe your idea or demo your idea to us so we can share it with the entire community.
+Can you think of more use cases that the Molecule Protocol can support? Please describe your idea, or demo your idea, or submit a PR (pull request) to us so we can share it with the entire community!
 
 ## Questions?
 
