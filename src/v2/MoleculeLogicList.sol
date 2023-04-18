@@ -44,8 +44,11 @@ contract MoleculeLogicList is Ownable, IMoleculeLogic {
     function addBatch(
         address[] memory addresses
     ) external onlyOwner returns (bool) {
-        for (uint256 i = 0; i < addresses.length; i++) {
+        for (uint256 i = 0; i < addresses.length; ) {
             _list[addresses[i]] = true;
+            unchecked {
+                ++i;
+            }
         }
         emit ListAdded(addresses);
         return true;
@@ -53,8 +56,11 @@ contract MoleculeLogicList is Ownable, IMoleculeLogic {
 
     // Remove addresses from the List
     function removeBatch(address[] memory addresses) external onlyOwner {
-        for (uint256 i = 0; i < addresses.length; i++) {
+        for (uint256 i = 0; i < addresses.length; ) {
             _list[addresses[i]] = false;
+            unchecked {
+                ++i;
+            }
         }
         emit ListRemoved(addresses);
     }

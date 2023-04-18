@@ -3,12 +3,11 @@
 [![Foundry][foundry-badge]][foundry]
 
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
-
 [foundry]: https://getfoundry.sh/
 
-## What is the Molecule Protocol?
+## What is Molecule Protocol?
 
-The Molecule Protocol defines a set of smart contracts for custom rule engine construction for your smart contracts.
+Molecule Protocol defines a set of smart contracts for custom rule engine construction for your smart contracts.
 
 The `MoleculeController.sol` smart contract serves as the controller smart contract, while `MoleculeLogic\*.sol` smart contracts are for rule construction.
 
@@ -16,19 +15,19 @@ By adding and removing rules from the Molecule Controller smart contract, it cre
 
 Each Molecule smart contract also includes a status setting. It can be set to always return true (`bypassed`), always return false (`blocked`), or return a boolean based on the rule engine (`gated`).
 
-## What is the Molecule Protocol used for?
+## What is Molecule Protocol used for?
 
 By placing one or more `require` statements in functions, you can gate the functions using your custom rule engines. The following are some sample use cases:
 
 ### NFT Mint Allowlist (Whitelist)
 
-Allow list (whitelist) is a common use case for NFT minting. By using the Molecule Protocol in the NFT smart contract, the allow list can be added and managed easily. After the mint, the Molecule Protocol smart contract can be set to bypass entirely.
+Allow list (whitelist) is a common use case for NFT minting. By using Molecule Protocol in the NFT smart contract, the allow list can be added and managed easily. After the mint, the Molecule Protocol smart contract can be set to bypass entirely.
 
 ### On-Chain Compliance
 
-AML: Most DeFi protocols enforce AML (Anti-Money-Laundering) at the UI level only. The Molecule Protocol enables AML checks at the smart contract level, ensuring no unauthorized counterparties at any time.
+AML: Most DeFi protocols enforce AML (Anti-Money-Laundering) at the UI level only. Molecule Protocol enables AML checks at the smart contract level, ensuring no unauthorized counterparties at any time.
 
-KYC: NFT allow lists can also be used for KYC (Know-Your-Customer) enforcement. With the Molecule Protocol, any DeFi project can achieve compliance as simple as adding one line of code (the `require` statement).
+KYC: NFT allow lists can also be used for KYC (Know-Your-Customer) enforcement. With Molecule Protocol, any DeFi project can achieve compliance as simple as adding one line of code (the `require` statement).
 
 ### Soulbound and Conditional Soulbound Tokens
 
@@ -36,7 +35,7 @@ A soulbound token refers to an NFT token that cannot be transferred. For example
 
 Many Web3 loyalty programs or GameFi projects prevent transfer to avoid "farming." However, transfer should be conditionally allowed during redemption. Tokens should either be burned or transferred to the treasury.
 
-Implementing these with the Molecule Protocol is trivial and more flexible than hardcoding.
+Implementing these with Molecule Protocol is trivial and more flexible than hardcoding.
 
 ### Subscription Payment
 
@@ -44,13 +43,13 @@ Proof of payment can be implemented with adding an allowlist logic. By adding th
 
 ## Ecosystem
 
-Features like payment services, AML, and KYC are common use cases. Service providers can publish their Molecule Smart Contract address and allow any project to use their services. They can also use the Molecule Protocol to implement payment services, essentially enabling the SaaS model on-chain.
+Features like payment services, AML, and KYC are common use cases. Service providers can publish their Molecule Smart Contract address and allow any project to use their services. They can also use Molecule Protocol to implement payment services, essentially enabling the SaaS model on-chain.
 
-By standardizing the construction of rule engines using the Molecule Protocol, even complex rules can be implemented easily and in a composable way. This removes duplicate implementations and maximizes value for service providers.
+By standardizing the construction of rule engines using Molecule Protocol, even complex rules can be implemented easily and in a composable way. This removes duplicate implementations and maximizes value for service providers.
 
 ## Contribution
 
-Can you think of more use cases that the Molecule Protocol can support? Please describe your idea, or demo your idea, or submit a PR (pull request) to us so we can share it with the entire community!
+Can you think of more use cases that Molecule Protocol can support? Please describe your idea, or demo your idea, or submit a PR (pull request) to us so we can share it with the entire community!
 
 ## Questions?
 
@@ -100,11 +99,11 @@ Goerli Testnet:
 
 Goerli Testnet (Old):
 
-- MoleculeAddress contract : [0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2](https://goerli.etherscan.io/address/0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2)
+- MoleculeAddress contract: [0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2](https://goerli.etherscan.io/address/0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2)
 
-- LogicAddressAML US (ID:840) contract address : [0x6ff3F2DAa62e11D6fEC233410d2151948234d496](https://goerli.etherscan.io/address/0x6ff3F2DAa62e11D6fEC233410d2151948234d496)
+- LogicAddressAML US (ID:840) contract address: [0x6ff3F2DAa62e11D6fEC233410d2151948234d496](https://goerli.etherscan.io/address/0x6ff3F2DAa62e11D6fEC233410d2151948234d496)
 
-- LogicAddressAML UK (ID:826) contract address :[0x3daD441A8C07eF64AA22e6114c39d690a098783F](https://goerli.etherscan.io/address/0x3daD441A8C07eF64AA22e6114c39d690a098783F)
+- LogicAddressAML UK (ID:826) contract address: [0x3daD441A8C07eF64AA22e6114c39d690a098783F](https://goerli.etherscan.io/address/0x3daD441A8C07eF64AA22e6114c39d690a098783F)
 
 ## Gas Comparison on Batch updations
 
@@ -144,4 +143,3 @@ Goerli Testnet (Old):
 | Deploy ERC1155 oz                  | sepolia | 3,359,382                          | 2.50 Gwei | 0.00839845503359382 ETH  |
 | Mint ERC1155 oz                    | sepolia | 54,693                             | 2.50 Gwei | 0.00013673250054693 ETH  |
 | Transfer ERC1155 oz                | sepolia | 53,704 (91.8%)                     | 2.50 Gwei | 0.000134260000483336 ETH |
-

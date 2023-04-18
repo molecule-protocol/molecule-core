@@ -2,7 +2,13 @@
   "name": "@moleculeprotocol/molecule-core",
   "description": "Molecule Protocol Core Contracts",
   "version": "3.1.1",
-  "author": "ultraviolet10 <aritrac1998@hotmail.com>, Calvin Pak <calvinpak@gmail.com>",
+  "author": "Calvin Pak <calvinpak@gmail.com>",
+  "contributors": [
+    {
+      "name": "Aritra Chatterjee",
+      "email": "aritrac1998@hotmail.com"
+    }
+  ],
   "license": "MIT",
   "directories": {
     "lib": "lib",

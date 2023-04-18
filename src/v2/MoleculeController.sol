@@ -56,11 +56,14 @@ contract MoleculeController is Ownable, IMoleculeController {
 
     // Preselect logic combinations
     function select(uint32[] memory ids) external onlyOwner {
-        for (uint i = 0; i < ids.length; i++) {
+        for (uint i = 0; i < ids.length; ) {
             require(
                 _logicContract[ids[i]] != address(0),
                 "Molecule: logic id not found"
             );
+            unchecked {
+                ++i;
+            }
         }
         _selected = ids;
         emit Selected(ids);
@@ -105,8 +108,11 @@ contract MoleculeController is Ownable, IMoleculeController {
 
     // Note: may break selected logic combinations if id is in use
     function removeLogicBatch(uint32[] memory ids) external onlyOwner {
-        for (uint i = 0; i < ids.length; i++) {
+        for (uint i = 0; i < ids.length; ) {
             _removeLogic(ids[i]);
+            unchecked {
+                ++i;
+            }
         }
     }
 
@@ -119,7 +125,7 @@ contract MoleculeController is Ownable, IMoleculeController {
         if (_status == Status.Blocked) return false;
         if (_status == Status.Bypassed) return true;
         require(ids.length > 0, "Molecule: no logic ids provided");
-        for (uint i = 0; i < ids.length; i++) {
+        for (uint i = 0; i < ids.length; ) {
             uint32 id = ids[i];
             require(
                 _logicContract[id] != address(0),
@@ -137,6 +143,9 @@ contract MoleculeController is Ownable, IMoleculeController {
             // If any check failed, return false
             if (!result) {
                 return false;
+            }
+            unchecked {
+                ++i;
             }
         }
         return true;
