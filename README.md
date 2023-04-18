@@ -29,7 +29,7 @@ AML: Most DeFi protocols enforce AML (Anti-Money-Laundering) at the UI level onl
 
 KYC: NFT allow lists can also be used for KYC (Know-Your-Customer) enforcement. With Molecule Protocol, any DeFi project can achieve compliance as simple as adding one line of code (the `require` statement).
 
-### Soulbound and Conditional Soulbound Tokens
+### Soulbound and Conditional-Soulbound Tokens
 
 A soulbound token refers to an NFT token that cannot be transferred. For example, for KYC tokens, the identity token is tied to each wallet address, and transfer is prohibited.
 
