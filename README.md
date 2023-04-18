@@ -106,7 +106,7 @@ Goerli Testnet (Old):
 
 - LogicAddressAML UK (ID:826) contract address :[0x3daD441A8C07eF64AA22e6114c39d690a098783F](https://goerli.etherscan.io/address/0x3daD441A8C07eF64AA22e6114c39d690a098783F)
 
-## Comparison on Batch updations
+## Gas Comparison on Batch updations
 
 | Task           | chain                 | Transaction Gas Amount (Gas usage) | Gas price          | Cost                    |
 | -------------- | --------------------- | ---------------------------------- | ------------------ | ----------------------- |
@@ -116,7 +116,7 @@ Goerli Testnet (Old):
 | Batch updation | scroll EVM            | 979,116                            | 50 Gwei            | 0.0489558 ETH           |
 | Batch updation | Goerli                | 999,026                            | 195.268257805 Gwei | 0.200000 ETH            |
 
-## comparison on Molecule contracts
+## Gas Comparison on Molecule contracts
 
 | Task                               | chain   | Transaction Gas Amount (Gas usage) | Gas price | Cost                     |
 | ---------------------------------- | ------- | ---------------------------------- | --------- | ------------------------ |
