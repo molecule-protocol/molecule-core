@@ -38,8 +38,8 @@ Three simple steps:
 
 Fully functional token contracts with Molecule Protocol integrated are available here:
 
-[ERC20m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC20m.sol)
-[ERC721m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC721m.sol)
+[ERC20m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC20m.sol) |
+[ERC721m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC721m.sol) |
 [ERC1155m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC1155m.sol)
 
 You can launch the contracts and add rules later.
