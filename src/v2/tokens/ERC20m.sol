@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 // ERC20 token implementation
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "../interfaces/IMoleculeLogic.sol";
+import "../interfaces/IMoleculeController.sol";
 
 // custom errors
 error AccountNotAllowedToMint(address minter);
@@ -34,7 +34,7 @@ contract ERC20m is ERC20, Ownable {
 
     function mint(address account, uint256 amount) external {
         if (_moleculeMint != address(0)) {
-            if (!IMoleculeLogic(_moleculeMint).check(account)) {
+            if (!IMoleculeController(_moleculeMint).check(account)) {
                 revert AccountNotAllowedToMint(account);
             }
         }
@@ -43,7 +43,7 @@ contract ERC20m is ERC20, Ownable {
 
     function burn(address account, uint256 amount) external {
         if (_moleculeBurn != address(0)) {
-            if (!IMoleculeLogic(_moleculeBurn).check(account)) {
+            if (!IMoleculeController(_moleculeBurn).check(account)) {
                 revert AccountNotAllowedToBurn(account);
             }
         }
@@ -57,10 +57,10 @@ contract ERC20m is ERC20, Ownable {
         uint256 amount
     ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
-            if (!IMoleculeLogic(_moleculeTransfer).check(sender)) {
+            if (!IMoleculeController(_moleculeTransfer).check(sender)) {
                 revert SenderNotAllowedToTransfer(sender);
             }
-            if (!IMoleculeLogic(_moleculeTransfer).check(recipient)) {
+            if (!IMoleculeController(_moleculeTransfer).check(recipient)) {
                 revert RecipientNotAllowedToReceive(recipient);
             }
         }
@@ -74,10 +74,10 @@ contract ERC20m is ERC20, Ownable {
         uint256 amount
     ) internal virtual override {
         if (_moleculeApprove != address(0)) {
-            if (!IMoleculeLogic(_moleculeApprove).check(owner)) {
+            if (!IMoleculeController(_moleculeApprove).check(owner)) {
                 revert OwnerNotAllowedToApprove(owner);
             }
-            if (!IMoleculeLogic(_moleculeApprove).check(spender)) {
+            if (!IMoleculeController(_moleculeApprove).check(spender)) {
                 revert RecipientNotAllowedToReceive(spender);
             }
         }
