@@ -196,13 +196,6 @@ contract MoleculeController is Ownable, IMoleculeController {
         emit LogicRemoved(id);
     }
 
-    function check(bytes memory data) external view returns (bool) {}
-
-    function check(
-        uint32[] memory ids,
-        bytes memory data
-    ) external view override returns (bool) {}
-
     function addLogic(
         uint32 id,
         address logicContract,
