@@ -16,7 +16,7 @@ interface IMoleculeLogic {
 
     function isAllowlist() external view returns (bool);
 
-    function addBatch(address[] memory addresses) external returns (bool);
-
-    function removeBatch(address[] memory addresses) external;
+    // Recommended owner only functions, but not mandatory
+    // function addBatch(address[] memory addresses) external returns (bool);
+    // function removeBatch(address[] memory addresses) external;
 }

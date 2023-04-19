@@ -7,17 +7,44 @@
 
 ## What is Molecule Protocol?
 
-Molecule Protocol defines a set of smart contracts for custom rule engine construction for your smart contracts.
+Molecule Protocol standardizes how to implement access control rules.
 
-The `MoleculeController.sol` smart contract serves as the controller smart contract, while `MoleculeLogic\*.sol` smart contracts are for rule construction.
+It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set it to different statuses so it always allow or block.
 
-By adding and removing rules from the Molecule Controller smart contract, it creates a rule engine that returns `true` or `false`. This allows for the construction of both simple and complex logics.
+The access control rules are defined by **MoleculeLogic** contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function **check()** that returns the logic (*true* or *false*.) The other requirements are a human readable *name* and a boolean that states if it is an allow-list or a block-list.
 
-Each Molecule smart contract also includes a status setting. It can be set to always return true (`bypassed`), always return false (`blocked`), or return a boolean based on the rule engine (`gated`).
+Two fully functionaly sample MoleculeLogic contracts are provided for implementing allow-list or block-list using NFTs or custom lists.
 
-## What is Molecule Protocol used for?
+## What do I use Molecule Protocol in my smart contracts?
 
-By placing one or more `require` statements in functions, you can gate the functions using your custom rule engines. The following are some sample use cases:
+It can be implemented with 1-line using a `require` statement. Or use the more gas-optimized code snippet below.
+
+```
+  error RecipientNotAllowedToReceive(address sender);
+  if (!IMoleculeController(_moleculeTransfer).check(recipient)) {
+      revert RecipientNotAllowedToReceive(recipient);
+  }
+```
+
+`_moleculeTransfer` is the **MoleculeController** contract address that checks if the recipient is allowed or not. Use the Solidity `error` more meaningful error messages can be logged with variables.
+
+Three simple steps:
+
+1. Launch and configure configure your MoleculeController contract and customize the logic
+
+2. Import the MoleculeController Interface in your smart contract
+
+3. Cast the MoleculeController with contract address and call the check() function with the address to validate
+
+Fully functional token contracts with Molecule Protocol integrated are available here:
+
+[ERC20m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC20m.sol)
+[ERC721m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC721m.sol)
+[ERC1155m](https://github.com/molecule-protocol/molecule-core/blob/main/src/v2/tokens/ERC1155m.sol)
+
+You can launch the contracts and add rules later.
+
+Below are other common use cases for the Molecule Protocol.
 
 ### NFT Mint Allowlist (Whitelist)
 
@@ -27,7 +54,7 @@ Allow list (whitelist) is a common use case for NFT minting. By using Molecule P
 
 AML: Most DeFi protocols enforce AML (Anti-Money-Laundering) at the UI level only. Molecule Protocol enables AML checks at the smart contract level, ensuring no unauthorized counterparties at any time.
 
-KYC: NFT allow lists can also be used for KYC (Know-Your-Customer) enforcement. With Molecule Protocol, any DeFi project can achieve compliance as simple as adding one line of code (the `require` statement).
+KYC: Molecule Protocol is composable with KYC projects like [KYC Dao](https://kycdao.xyz/) and [Quadrata](https://quadrata.com/)
 
 ### Soulbound and Conditional-Soulbound Tokens
 
@@ -58,35 +85,6 @@ Send us questions on Twitter: [@moleculepro](https://twitter.com/moleculepro)
 or join our Discord: https://discord.gg/J8dqFK8ufA
 
 # Additional Information
-
-## How to use the Molecule smart contract?
-
-```
-import "@moleculeprotocol/molecule-core/src/IMolecule.sol";
-
-contract MyContract {
-  safeTransfer(address _to) {
-    require(IMolecule(_molecule_address).check(abi.encode(_to)), "MyContract: access denied.");
-    // implementation
-  }
-}
-```
-
-```
-import "@moleculeprotocol/molecule-core/src/IMoleculeAddress.sol";
-
-contract MyContract {
-  safeTransfer(address _to) {
-    require(IMoleculeAddress(_molecule_address).check(_to), "MyContract: access denied.");
-    // implementation
-  }
-}
-```
-
-1. Import the Molecule Protocol Interface smart contract
-2. Cast the molecule smart contract address and call to check the recipient
-3. You can configure your custom logic in the molecule smart contract
-
 ## AML Deployments
 
 Goerli Testnet:

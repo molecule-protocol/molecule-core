@@ -40,12 +40,12 @@ interface IMoleculeController {
     event StatusChanged(Status status);
 
     // Use default logic combination
-    function check(bytes memory data) external view returns (bool);
+    function check(address toCheck) external view returns (bool);
 
     // Use custom logic combination, passed in as an array of list ids
     function check(
         uint32[] memory ids,
-        bytes memory data
+        address toCheck
     ) external view returns (bool);
 
     // Get the current selected logic combination

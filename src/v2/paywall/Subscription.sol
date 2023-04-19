@@ -138,9 +138,7 @@ contract Subscription is ERC721, IMoleculeLogic, Ownable {
         payable(msg.sender).transfer(address(this).balance);
     }
 
-    function addBatch(
-        address[] memory addresses
-    ) external override returns (bool) {}
+    function addBatch(address[] memory addresses) external returns (bool) {}
 
-    function removeBatch(address[] memory addresses) external override {}
+    function removeBatch(address[] memory addresses) external {}
 }

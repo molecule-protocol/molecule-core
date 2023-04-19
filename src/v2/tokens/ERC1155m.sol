@@ -5,7 +5,7 @@ pragma solidity ^0.8.17;
 import "@openzeppelin/contracts/token/ERC1155/ERC1155.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Strings.sol";
-import "../interfaces/IMoleculeLogic.sol";
+import "../interfaces/IMoleculeController.sol";
 
 // Molecule ERC1155 token
 contract ERC1155m is ERC1155, Ownable {
@@ -47,7 +47,7 @@ contract ERC1155m is ERC1155, Ownable {
     ) external {
         if (_moleculeMint != address(0)) {
             require(
-                IMoleculeLogic(_moleculeMint).check(account),
+                IMoleculeController(_moleculeMint).check(account),
                 "ERC1155m: account not allowed to mint"
             );
         }
@@ -57,7 +57,7 @@ contract ERC1155m is ERC1155, Ownable {
     function burn(address account, uint256 id, uint256 amount) external {
         if (_moleculeBurn != address(0)) {
             require(
-                IMoleculeLogic(_moleculeBurn).check(account),
+                IMoleculeController(_moleculeBurn).check(account),
                 "ERC1155m: account not allowed to burn"
             );
         }
@@ -75,11 +75,11 @@ contract ERC1155m is ERC1155, Ownable {
     ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
             require(
-                IMoleculeLogic(_moleculeTransfer).check(from),
+                IMoleculeController(_moleculeTransfer).check(from),
                 "ERC1155m: sender not allowed to transfer"
             );
             require(
-                IMoleculeLogic(_moleculeTransfer).check(to),
+                IMoleculeController(_moleculeTransfer).check(to),
                 "ERC1155m: recipient not allowed to receive"
             );
         }
@@ -94,7 +94,7 @@ contract ERC1155m is ERC1155, Ownable {
     ) internal virtual override {
         if (_moleculeApprove != address(0)) {
             require(
-                IMoleculeLogic(_moleculeApprove).check(operator),
+                IMoleculeController(_moleculeApprove).check(operator),
                 "ERC1155m: owner not allowed to approve"
             );
         }

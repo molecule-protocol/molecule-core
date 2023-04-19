@@ -4,7 +4,7 @@ pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "../interfaces/IMoleculeLogic.sol";
+import "../interfaces/IMoleculeController.sol";
 
 contract ERC721m is ERC721, Ownable {
     enum MoleculeType {
@@ -36,7 +36,7 @@ contract ERC721m is ERC721, Ownable {
 
     function mint(address to, uint256 tokenId) external {
         if (_moleculeMint != address(0)) {
-            if (!IMoleculeLogic(_moleculeMint).check(to)) {
+            if (!IMoleculeController(_moleculeMint).check(to)) {
                 revert AccountNotAllowedToMint(to);
             }
         }
@@ -46,7 +46,7 @@ contract ERC721m is ERC721, Ownable {
     function burn(uint256 tokenId) external {
         address tokenOwner = ownerOf(tokenId);
         if (_moleculeBurn != address(0)) {
-            if (!IMoleculeLogic(_moleculeBurn).check(tokenOwner)) {
+            if (!IMoleculeController(_moleculeBurn).check(tokenOwner)) {
                 revert AccountNotAllowedToBurn(tokenOwner);
             }
         }
@@ -60,10 +60,10 @@ contract ERC721m is ERC721, Ownable {
         uint256 tokenId
     ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
-            if (!IMoleculeLogic(_moleculeTransfer).check(from)) {
+            if (!IMoleculeController(_moleculeTransfer).check(from)) {
                 revert SenderNotAllowedToTransfer(from);
             }
-            if (!IMoleculeLogic(_moleculeTransfer).check(to)) {
+            if (!IMoleculeController(_moleculeTransfer).check(to)) {
                 revert SpenderNotAllowedToReceive(to);
             }
         }
@@ -74,10 +74,10 @@ contract ERC721m is ERC721, Ownable {
     function _approve(address to, uint256 tokenId) internal virtual override {
         if (_moleculeApprove != address(0)) {
             address tokenOwner = ownerOf(tokenId);
-            if (!IMoleculeLogic(_moleculeApprove).check(tokenOwner)) {
+            if (!IMoleculeController(_moleculeApprove).check(tokenOwner)) {
                 revert OwnerNotAllowedToApprove(tokenOwner);
             }
-            if (!IMoleculeLogic(_moleculeApprove).check(to)) {
+            if (!IMoleculeController(_moleculeApprove).check(to)) {
                 revert SpenderNotAllowedToReceive(to);
             }
         }
