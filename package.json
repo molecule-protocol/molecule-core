@@ -19,11 +19,9 @@
     "test": "test"
   },
   "scripts": {
-    "build": "waffle",
+    "build": "forge build",
     "flatten": "npx waffle flatten",
-    "test": "NODE_ENV=test mocha --watch --watch-files ./test/**/*.ts",
-    "test:ci": "NODE_ENV=test mocha",
-    "test:sol": "forge test -vvvvv"
+    "test": "forge test -vvvvv"
   },
   "devDependencies": {
     "@ethersproject/abi": "^5.4.7",

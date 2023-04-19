@@ -52,9 +52,7 @@ contract MoleculeLogicNFT is Ownable, IMoleculeLogic {
         emit NFTContractSet(nftContract_);
     }
 
-    function addBatch(
-        address[] memory addresses
-    ) external override returns (bool) {}
+    function addBatch(address[] memory addresses) external returns (bool) {}
 
-    function removeBatch(address[] memory addresses) external override {}
+    function removeBatch(address[] memory addresses) external {}
 }
