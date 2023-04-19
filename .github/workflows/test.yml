@@ -1,24 +1,40 @@
-name: Test
+name: test
+
 on:
-  pull_request:
   push:
     branches:
       - main
-      - github-actions-test-*
+  pull_request:
+    branches:
+      - main
+
+env:
+  FOUNDRY_PROFILE: ci
+
 jobs:
-  test:
+  foundry:
     strategy:
-      matrix:
-        node: ['18.x']
-        os: [macos-latest]
-    runs-on: ${{ matrix.os }}
+      fail-fast: true
+
+    name: Foundry project
+    runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - name: Use Node.js
-        uses: actions/setup-node@v1
+      - uses: actions/checkout@v3
         with:
-          node-version: ${{ matrix.node }}
-      - run: npm i -g yarn@1.22.19
-      - run: yarn
-      - run: yarn build
-      - run: yarn test:ci
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: Run Forge build
+        run: |
+          forge --version
+          forge build --sizes
+        id: build
+
+      - name: Run Forge tests
+        run: |
+          forge test -vvvvv
+        id: forge-test

@@ -5,9 +5,11 @@ import "forge-std/Test.sol";
 import "forge-std/Vm.sol";
 import "forge-std/console.sol";
 
-import "../src/tokens/ERC721m.sol";
-import "../src/MoleculeAddress.sol";
-import "../src/LogicACLAddress.sol";
+import "../src/v2/tokens/ERC721m.sol";
+import "../src/v2/MoleculeController.sol";
+import "../src/v2/MoleculeLogicList.sol";
+
+error AccountNotAllowedToMint();
 
 contract ERC721MTest is Test {
     event ListAdded(address[] addresses);
@@ -33,8 +35,8 @@ contract ERC721MTest is Test {
     }
 
     ERC721m public molToken;
-    Molecule public molecule;
-    LogicACL public logicACL;
+    MoleculeController public molecule;
+    MoleculeLogicList public logicACL;
 
     address alice = makeAddr("alice");
     address bob = makeAddr("bob");
@@ -46,8 +48,8 @@ contract ERC721MTest is Test {
 
     function setUp() public {
         molToken = new ERC721m("molecule", "MOL");
-        molecule = new Molecule();
-        logicACL = new LogicACL("booyeah");
+        molecule = new MoleculeController();
+        logicACL = new MoleculeLogicList("booyah", true);
     }
 
     function testTokenLifeTimeWithoutMolecule() public {
@@ -87,7 +89,7 @@ contract ERC721MTest is Test {
         vm.expectEmit(true, true, true, true);
         // 3rd param true means we're setting an allowlist
         emit LogicAdded(logicId, address(logicACL), true, "test", false);
-        molecule.addLogic(logicId, address(logicACL), true, "test", false);
+        molecule.addLogic(logicId, address(logicACL), "test", false);
 
         vm.expectEmit(true, false, false, false);
         emit Selected(ids);
@@ -113,7 +115,10 @@ contract ERC721MTest is Test {
         vm.stopPrank();
 
         vm.startPrank(daisy);
-        vm.expectRevert("ERC721m: account not allowed to mint");
+        bytes4 selector = bytes4(keccak256("AccountNotAllowedToMint(address)"));
+        vm.expectRevert(
+            abi.encodeWithSelector(selector, daisy)
+        );
         molToken.mint(daisy, 2);
 
         vm.stopPrank();
