@@ -28,7 +28,7 @@ contract MoleculeController is Ownable, IMoleculeController {
 
     constructor(string memory name_) {
         _controllerName = name_;
-        emit ControllerDeployed(name_);
+        emit ControllerNameUpdated(name_);
     }
 
     // Use default logic combination
@@ -63,7 +63,7 @@ contract MoleculeController is Ownable, IMoleculeController {
     // Change the controller name
     function setControllerName(string memory name_) external onlyOwner {
         _controllerName = name_;
-        emit ControllerDeployed(name_);
+        emit ControllerNameUpdated(name_);
     }
 
     // Control the status of the contract

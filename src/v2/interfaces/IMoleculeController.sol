@@ -27,7 +27,7 @@ interface IMoleculeController {
     // mapping(uint32 => bool) private _reverseLogic; // NOT used, always false
 
     // event emitted when the controller name is changed
-    event ControllerDeployed(string name);
+    event ControllerNameUpdated(string name);
     // event emitted when a new list is added
     event LogicAdded(
         uint32 indexed id,
