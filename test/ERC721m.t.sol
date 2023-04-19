@@ -9,6 +9,8 @@ import "../src/v2/tokens/ERC721m.sol";
 import "../src/v2/MoleculeController.sol";
 import "../src/v2/MoleculeLogicList.sol";
 
+error AccountNotAllowedToMint();
+
 contract ERC721MTest is Test {
     event ListAdded(address[] addresses);
     event MoleculeUpdated(address molecule, MoleculeType mtype);
@@ -113,7 +115,10 @@ contract ERC721MTest is Test {
         vm.stopPrank();
 
         vm.startPrank(daisy);
-        vm.expectRevert("ERC721m: account not allowed to mint");
+        bytes4 selector = bytes4(keccak256("AccountNotAllowedToMint(address)"));
+        vm.expectRevert(
+            abi.encodeWithSelector(selector, daisy)
+        );
         molToken.mint(daisy, 2);
 
         vm.stopPrank();

@@ -14,6 +14,13 @@ contract ERC721m is ERC721, Ownable {
         Transfer
     }
 
+    // Custom error definitions
+    error AccountNotAllowedToMint(address to);
+    error AccountNotAllowedToBurn(address burner);
+    error SenderNotAllowedToTransfer(address sender);
+    error OwnerNotAllowedToApprove(address owner);
+    error SpenderNotAllowedToReceive(address spender);
+
     // Molecule addresses
     address public _moleculeApprove;
     address public _moleculeBurn;
@@ -29,10 +36,9 @@ contract ERC721m is ERC721, Ownable {
 
     function mint(address to, uint256 tokenId) external {
         if (_moleculeMint != address(0)) {
-            require(
-                IMoleculeLogic(_moleculeMint).check(to),
-                "ERC721m: account not allowed to mint"
-            );
+            if (!IMoleculeLogic(_moleculeMint).check(to)) {
+                revert AccountNotAllowedToMint(to);
+            }
         }
         _safeMint(to, tokenId);
     }
@@ -40,10 +46,9 @@ contract ERC721m is ERC721, Ownable {
     function burn(uint256 tokenId) external {
         address tokenOwner = ownerOf(tokenId);
         if (_moleculeBurn != address(0)) {
-            require(
-                IMoleculeLogic(_moleculeBurn).check(tokenOwner),
-                "ERC721m: account not allowed to burn"
-            );
+            if (!IMoleculeLogic(_moleculeBurn).check(tokenOwner)) {
+                revert AccountNotAllowedToBurn(tokenOwner);
+            }
         }
         _burn(tokenId);
     }
@@ -55,14 +60,12 @@ contract ERC721m is ERC721, Ownable {
         uint256 tokenId
     ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
-            require(
-                IMoleculeLogic(_moleculeTransfer).check(from),
-                "ERC721m: sender not allowed to transfer"
-            );
-            require(
-                IMoleculeLogic(_moleculeTransfer).check(to),
-                "ERC721m: recipient not allowed to receive"
-            );
+            if (!IMoleculeLogic(_moleculeTransfer).check(from)) {
+                revert SenderNotAllowedToTransfer(from);
+            }
+            if (!IMoleculeLogic(_moleculeTransfer).check(to)) {
+                revert SpenderNotAllowedToReceive(to);
+            }
         }
         super._transfer(from, to, tokenId);
     }
@@ -71,14 +74,12 @@ contract ERC721m is ERC721, Ownable {
     function _approve(address to, uint256 tokenId) internal virtual override {
         if (_moleculeApprove != address(0)) {
             address tokenOwner = ownerOf(tokenId);
-            require(
-                IMoleculeLogic(_moleculeApprove).check(tokenOwner),
-                "ERC721m: owner not allowed to approve"
-            );
-            require(
-                IMoleculeLogic(_moleculeApprove).check(to),
-                "ERC721m: spender not allowed to receive"
-            );
+            if (!IMoleculeLogic(_moleculeApprove).check(tokenOwner)) {
+                revert OwnerNotAllowedToApprove(tokenOwner);
+            }
+            if (!IMoleculeLogic(_moleculeApprove).check(to)) {
+                revert SpenderNotAllowedToReceive(to);
+            }
         }
         super._approve(to, tokenId);
     }

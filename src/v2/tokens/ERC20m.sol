@@ -7,15 +7,21 @@ import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IMoleculeLogic.sol";
 
+// custom errors
+error AccountNotAllowedToMint(address minter);
+error AccountNotAllowedToBurn(address burner);
+error SenderNotAllowedToTransfer(address sender);
+error RecipientNotAllowedToReceive(address receipient);
+error OwnerNotAllowedToApprove(address owner);
+
 // Molecule ERC20 token
-abstract contract ERC20m is ERC20, Ownable {
+contract ERC20m is ERC20, Ownable {
     enum MoleculeType {
         Approve,
         Burn,
         Mint,
         Transfer
     }
-
     // Molecule address
     address public _moleculeApprove;
     address public _moleculeBurn;
@@ -28,39 +34,62 @@ abstract contract ERC20m is ERC20, Ownable {
 
     function mint(address account, uint256 amount) external {
         if (_moleculeMint != address(0)) {
-            require(IMoleculeLogic(_moleculeMint).check(account), "ERC20m: account not allowed to mint");
+            if (!IMoleculeLogic(_moleculeMint).check(account)) {
+                revert AccountNotAllowedToMint(account);
+            }
         }
         _mint(account, amount);
     }
 
     function burn(address account, uint256 amount) external {
         if (_moleculeBurn != address(0)) {
-            require(IMoleculeLogic(_moleculeBurn).check(account), "ERC20m: account not allowed to burn");
+            if (!IMoleculeLogic(_moleculeBurn).check(account)) {
+                revert AccountNotAllowedToBurn(account);
+            }
         }
         _burn(account, amount);
     }
 
     // Transfer function
-    function _transfer(address sender, address recipient, uint256 amount) internal virtual override {
+    function _transfer(
+        address sender,
+        address recipient,
+        uint256 amount
+    ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
-            require(IMoleculeLogic(_moleculeTransfer).check(sender), "ERC20m: sender not allowed to transfer");
-            require(IMoleculeLogic(_moleculeTransfer).check(recipient), "ERC20m: recipient not allowed to receive");
+            if (!IMoleculeLogic(_moleculeTransfer).check(sender)) {
+                revert SenderNotAllowedToTransfer(sender);
+            }
+            if (!IMoleculeLogic(_moleculeTransfer).check(recipient)) {
+                revert RecipientNotAllowedToReceive(recipient);
+            }
         }
         super._transfer(sender, recipient, amount);
     }
 
     // Approve function
-    function _approve(address owner, address spender, uint256 amount) internal virtual override {
+    function _approve(
+        address owner,
+        address spender,
+        uint256 amount
+    ) internal virtual override {
         if (_moleculeApprove != address(0)) {
-            require(IMoleculeLogic(_moleculeApprove).check(owner), "ERC20m: owner not allowed to approve");
-            require(IMoleculeLogic(_moleculeApprove).check(spender), "ERC20m: spender not allowed to receive");
+            if (!IMoleculeLogic(_moleculeApprove).check(owner)) {
+                revert OwnerNotAllowedToApprove(owner);
+            }
+            if (!IMoleculeLogic(_moleculeApprove).check(spender)) {
+                revert RecipientNotAllowedToReceive(spender);
+            }
         }
         super._approve(owner, spender, amount);
     }
 
     // Owner only functions
     // Molecule ERC20 token
-    function updateMolecule(address molecule, MoleculeType mtype) external onlyOwner {
+    function updateMolecule(
+        address molecule,
+        MoleculeType mtype
+    ) external onlyOwner {
         // allows 0x0 address to be set to remove molecule access control
         if (mtype == MoleculeType.Approve) {
             _moleculeApprove = molecule;
