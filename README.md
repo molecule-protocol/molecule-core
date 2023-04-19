@@ -5,13 +5,23 @@
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
 [foundry]: https://getfoundry.sh/
 
+## Setup
+
+This project was built using [Foundry](https://book.getfoundry.sh/). Refer to installation instructions [here](https://github.com/foundry-rs/foundry#installation).
+
+```sh
+git clone git@github.com:molecule-protocol/molecule-core.git
+cd molecule-core
+forge install
+```
+
 ## What is Molecule Protocol?
 
 Molecule Protocol standardizes how to implement access control rules.
 
 It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set it to different statuses so it always allow or block.
 
-The access control rules are defined by **MoleculeLogic** contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function **check()** that returns the logic (*true* or *false*.) The other requirements are a human readable *name* and a boolean that states if it is an allow-list or a block-list.
+The access control rules are defined by **MoleculeLogic** contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function **check()** that returns the logic (_true_ or _false_.) The other requirements are a human readable _name_ and a boolean that states if it is an allow-list or a block-list.
 
 Two fully functionaly sample MoleculeLogic contracts are provided for implementing allow-list or block-list using NFTs or custom lists.
 
@@ -85,6 +95,7 @@ Send us questions on Twitter: [@moleculepro](https://twitter.com/moleculepro)
 or join our Discord: https://discord.gg/J8dqFK8ufA
 
 # Additional Information
+
 ## AML Deployments
 
 Goerli Testnet:
