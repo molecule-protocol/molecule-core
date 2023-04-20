@@ -8,6 +8,8 @@ import "./interfaces/IMoleculeLogic.sol";
 /// @title Molecule Protocol Controller Contract
 /// @dev This contract implements the IMoleculeController interface
 contract MoleculeController is Ownable, IMoleculeController {
+    // Human readable name of the controller
+    string public _controllerName;
     // default logic combinations to use
     uint32[] public _selected;
     // current status of the contract
@@ -24,6 +26,11 @@ contract MoleculeController is Ownable, IMoleculeController {
 
     // Note: Enum & Events are defined by the interface
 
+    constructor(string memory name_) {
+        _controllerName = name_;
+        emit ControllerNameUpdated(name_);
+    }
+
     // Use default logic combination
     function check(address account) external view returns (bool) {
         return _check(_selected, account);
@@ -37,6 +44,11 @@ contract MoleculeController is Ownable, IMoleculeController {
         return _check(ids, account);
     }
 
+    // Get the controller name
+    function controllerName() external view returns (string memory) {
+        return _controllerName;
+    }
+
     // Get the current selected logic combination
     function selected() external view returns (uint32[] memory) {
         return _selected;
@@ -48,6 +60,12 @@ contract MoleculeController is Ownable, IMoleculeController {
     }
 
     // Owner only functions
+    // Change the controller name
+    function setControllerName(string memory name_) external onlyOwner {
+        _controllerName = name_;
+        emit ControllerNameUpdated(name_);
+    }
+
     // Control the status of the contract
     function setStatus(Status newStatus) external onlyOwner {
         _status = newStatus;

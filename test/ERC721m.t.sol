@@ -48,7 +48,7 @@ contract ERC721MTest is Test {
 
     function setUp() public {
         molToken = new ERC721m("molecule", "MOL");
-        molecule = new MoleculeController();
+        molecule = new MoleculeController("molecule controller");
         logicACL = new MoleculeLogicList("booyah", true);
     }
 

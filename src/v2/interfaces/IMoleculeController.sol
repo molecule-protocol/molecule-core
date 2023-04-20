@@ -3,6 +3,8 @@ pragma solidity ^0.8.17;
 
 // Interface for Molecule Protocol Smart Contract
 interface IMoleculeController {
+    // Human readable name of the controller
+    // string public _controllerName;
     // // selected logic combinations
     // uint32[] private _selected;
 
@@ -24,6 +26,8 @@ interface IMoleculeController {
     // // list id => logic modifier: add negation if true or false for as-is
     // mapping(uint32 => bool) private _reverseLogic; // NOT used, always false
 
+    // event emitted when the controller name is changed
+    event ControllerNameUpdated(string name);
     // event emitted when a new list is added
     event LogicAdded(
         uint32 indexed id,
