@@ -9,8 +9,6 @@ import "../src/v2/tokens/ERC721m.sol";
 import "../src/v2/MoleculeController.sol";
 import "../src/v2/MoleculeLogicList.sol";
 
-error AccountNotAllowedToMint();
-
 contract ERC721MTest is Test {
     event ListAdded(address[] addresses);
     event MoleculeUpdated(address molecule, MoleculeType mtype);
@@ -36,12 +34,13 @@ contract ERC721MTest is Test {
 
     ERC721m public molToken;
     MoleculeController public molecule;
-    MoleculeLogicList public logicACL;
+    MoleculeLogicList public logicList;
 
     address alice = makeAddr("alice");
     address bob = makeAddr("bob");
     address charlie = makeAddr("charlie");
     address daisy = makeAddr("daisy");
+    address eric = makeAddr("eric");
 
     uint256 tokenId = 1;
     uint256 tokenId2 = 2;
@@ -49,31 +48,15 @@ contract ERC721MTest is Test {
     function setUp() public {
         molToken = new ERC721m("molecule", "MOL");
         molecule = new MoleculeController("molecule controller");
-        logicACL = new MoleculeLogicList("booyah", true);
+        logicList = new MoleculeLogicList("booyah", true);
     }
 
-    function testTokenLifeTimeWithoutMolecule() public {
-        // mint token
-        molToken.mint(bob, 1);
-        assertEq(molToken.balanceOf(bob), 1);
-
-        // transfer token
-        // molToken._approve(alice, 1);
-        // molToken._transfer(bob, alice, 1);
-        // assertEq(molToken.balanceOf(bob), 0);
-        // assertEq(molToken.balanceOf(alice), 1);
-
-        // burn token
-        molToken.burn(1);
-        assertEq(molToken.balanceOf(bob), 0);
-    }
-
-    function testTokenLifeTimeWithMolecule() public {
+    function setBlockList() public {
         // list of addresses
-        address[] memory incumbents = new address[](3);
-        incumbents[0] = alice;
-        incumbents[1] = bob;
-        incumbents[2] = charlie;
+        address[] memory blockList = new address[](3);
+        blockList[0] = alice;
+        blockList[1] = bob;
+        blockList[2] = charlie;
 
         uint32 logicId = 1;
         uint32[] memory ids = new uint32[](1);
@@ -81,19 +64,61 @@ contract ERC721MTest is Test {
 
         // add batch to logic contract
         vm.expectEmit(true, false, false, false);
-        emit ListAdded(incumbents);
-        bool batchAdded = logicACL.addBatch(incumbents);
+        emit ListAdded(blockList);
+        bool batchAdded = logicList.addBatch(blockList);
         assertEq(batchAdded, true);
 
         // add logic contract to Molecule for access control
         vm.expectEmit(true, true, true, true);
-        // 3rd param true means we're setting an allowlist
-        emit LogicAdded(logicId, address(logicACL), true, "test", false);
-        molecule.addLogic(logicId, address(logicACL), "test", false);
+        // 3rd param false means we're setting an blocklists
+        emit LogicAdded(logicId, address(logicList), true, "test", true);
+        molecule.addLogic(logicId, address(logicList), "test", true);
 
         vm.expectEmit(true, false, false, false);
         emit Selected(ids);
         molecule.select(ids);
+    }
+
+    function setAllowlist() public {
+        // list of addresses
+        address[] memory allowList = new address[](3);
+        allowList[0] = alice;
+        allowList[1] = bob;
+        allowList[2] = charlie;
+
+        uint32 logicId = 1;
+        uint32[] memory ids = new uint32[](1);
+        ids[0] = logicId;
+
+        // add batch to logic contract
+        vm.expectEmit(true, false, false, false);
+        emit ListAdded(allowList);
+        bool batchAdded = logicList.addBatch(allowList);
+        assertEq(batchAdded, true);
+
+        // add logic contract to Molecule for access control
+        vm.expectEmit(true, true, true, true);
+        // 3rd param: true means we're setting an allowlist
+        emit LogicAdded(logicId, address(logicList), true, "test", false);
+        molecule.addLogic(logicId, address(logicList), "test", false);
+
+        vm.expectEmit(true, false, false, false);
+        emit Selected(ids);
+        molecule.select(ids);
+    }
+
+    function test_erc721_functions() public {
+        // mint token
+        molToken.mint(bob, 1);
+        assertEq(molToken.balanceOf(bob), 1);
+
+        // burn token
+        molToken.burn(1);
+        assertEq(molToken.balanceOf(bob), 0);
+    }
+
+    function test_erc721_MoleculeAllowlist() public {
+        setAllowlist();
 
         // tell token contract which actions are to be gated
         vm.expectEmit(true, true, false, false);
@@ -116,10 +141,71 @@ contract ERC721MTest is Test {
 
         vm.startPrank(daisy);
         bytes4 selector = bytes4(keccak256("AccountNotAllowedToMint(address)"));
-        vm.expectRevert(
-            abi.encodeWithSelector(selector, daisy)
-        );
+        vm.expectRevert(abi.encodeWithSelector(selector, daisy));
         molToken.mint(daisy, 2);
+
+        vm.stopPrank();
+    }
+
+    function test_erc721_MoleculeBlocklist() public {
+        setBlockList();
+
+        // tell token contract which actions are to be gated: Mint and Burn
+        vm.expectEmit(true, true, false, false);
+        emit MoleculeUpdated(address(molecule), MoleculeType.Mint);
+        molToken.updateMolecule(address(molecule), ERC721m.MoleculeType.Mint);
+        assertEq(molToken._moleculeMint(), address(molecule));
+
+        vm.expectEmit(true, true, false, false);
+        emit MoleculeUpdated(address(molecule), MoleculeType.Burn);
+        molToken.updateMolecule(address(molecule), ERC721m.MoleculeType.Burn);
+        assertEq(molToken._moleculeBurn(), address(molecule));
+
+        vm.startPrank(daisy);
+        molToken.mint(daisy, 1);
+        assertEq(molToken.balanceOf(daisy), 1);
+
+        molToken.burn(1);
+        assertEq(molToken.balanceOf(daisy), 0);
+        vm.stopPrank();
+
+        // alice is part of the blocklist array, hence not allowed to mint
+        vm.startPrank(alice);
+        bytes4 selector = bytes4(keccak256("AccountNotAllowedToMint(address)"));
+        vm.expectRevert(abi.encodeWithSelector(selector, alice));
+        molToken.mint(alice, 2);
+
+        vm.stopPrank();
+    }
+
+    function test_erc721_MoleculeBlockList_transferGate() public {
+        setBlockList();
+
+        vm.expectEmit(true, true, false, false);
+        emit MoleculeUpdated(address(molecule), MoleculeType.Transfer);
+        molToken.updateMolecule(
+            address(molecule),
+            ERC721m.MoleculeType.Transfer
+        );
+        assertEq(molToken._moleculeTransfer(), address(molecule));
+
+        vm.startPrank(daisy);
+        molToken.mint(daisy, 1);
+        assertEq(molToken.balanceOf(daisy), 1);
+
+        bytes4 selector = bytes4(
+            keccak256("SpenderNotAllowedToReceive(address)")
+        );
+        vm.expectRevert(abi.encodeWithSelector(selector, bob));
+        molToken.transferFrom(daisy, bob, 1);
+        vm.stopPrank();
+
+        vm.startPrank(daisy);
+        // daisy and eric are not part of the blocklist, they may freely exchange tokens
+        molToken.mint(daisy, 2);
+        assertEq(molToken.balanceOf(daisy), 2);
+        molToken.transferFrom(daisy, eric, 1);
+        assertEq(molToken.balanceOf(eric), 1);
 
         vm.stopPrank();
     }

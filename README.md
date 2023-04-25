@@ -5,6 +5,8 @@
 [foundry-badge]: https://img.shields.io/badge/Built%20with-Foundry-FFDB1C.svg
 [foundry]: https://getfoundry.sh/
 
+![Tests](https://github.com/molecule-protocol/molecule-core/actions/workflows/test.yml/badge.svg?branch=main)
+
 ## Setup
 
 This project was built using [Foundry](https://book.getfoundry.sh/). Refer to installation instructions [here](https://github.com/foundry-rs/foundry#installation).

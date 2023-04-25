@@ -3,7 +3,7 @@
 pragma solidity ^0.8.17;
 
 // ERC20 token implementation
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20} from "@solmate/tokens/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IMoleculeController.sol";
 
@@ -30,7 +30,11 @@ contract ERC20m is ERC20, Ownable {
 
     event MoleculeUpdated(address molecule, MoleculeType mtype);
 
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
+    constructor(
+        string memory tokenName,
+        string memory tokenSymbol,
+        uint8 tokenDecimals
+    ) ERC20(tokenName, tokenSymbol, tokenDecimals) {}
 
     function mint(address account, uint256 amount) external {
         if (_moleculeMint != address(0)) {
@@ -55,7 +59,7 @@ contract ERC20m is ERC20, Ownable {
         address sender,
         address recipient,
         uint256 amount
-    ) internal virtual override {
+    ) external virtual {
         if (_moleculeTransfer != address(0)) {
             if (!IMoleculeController(_moleculeTransfer).check(sender)) {
                 revert SenderNotAllowedToTransfer(sender);
@@ -64,7 +68,7 @@ contract ERC20m is ERC20, Ownable {
                 revert RecipientNotAllowedToReceive(recipient);
             }
         }
-        super._transfer(sender, recipient, amount);
+        transfer(recipient, amount);
     }
 
     // Approve function
@@ -72,7 +76,7 @@ contract ERC20m is ERC20, Ownable {
         address owner,
         address spender,
         uint256 amount
-    ) internal virtual override {
+    ) internal virtual {
         if (_moleculeApprove != address(0)) {
             if (!IMoleculeController(_moleculeApprove).check(owner)) {
                 revert OwnerNotAllowedToApprove(owner);
@@ -81,7 +85,7 @@ contract ERC20m is ERC20, Ownable {
                 revert RecipientNotAllowedToReceive(spender);
             }
         }
-        super._approve(owner, spender, amount);
+        approve(spender, amount);
     }
 
     // Owner only functions

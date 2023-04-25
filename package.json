@@ -6,7 +6,8 @@
   "contributors": [
     {
       "name": "Aritra Chatterjee",
-      "email": "aritrac1998@hotmail.com"
+      "email": "aritrac1998@hotmail.com",
+      "url": "https://github.com/ultraviolet10"
     },
     {
       "name": "Ajmal Kodakkat",
@@ -20,7 +21,6 @@
   },
   "scripts": {
     "build": "forge build",
-    "flatten": "npx waffle flatten",
     "test": "forge test -vvvvv"
   },
   "dependencies": {},
