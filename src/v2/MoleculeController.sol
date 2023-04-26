@@ -19,8 +19,8 @@ contract MoleculeController is Ownable, IMoleculeController {
     mapping(uint32 => address) private _logicContract;
     // list id => allow- (true) or block- (false) list
     mapping(uint32 => bool) private _isAllowList;
-    // list id => list name
-    mapping(uint32 => string) private _logicName;
+    // list id => name of contract
+    mapping(uint32 => string) private _logicContractLabel;
     // list id => logic modifier: add negation if true or false for as-is
     mapping(uint32 => bool) private _reverseLogic;
 
@@ -188,16 +188,16 @@ contract MoleculeController is Ownable, IMoleculeController {
         _isAllowList[id] = IMoleculeLogic(logicContract).isAllowlist();
         // if a name is provided, use it, otherwise use the name from the logic contract
         if (bytes(name).length > 0) {
-            _logicName[id] = name;
+            _logicContractLabel[id] = name;
         } else {
-            _logicName[id] = IMoleculeLogic(logicContract).logicName();
+            _logicContractLabel[id] = IMoleculeLogic(logicContract).logicName();
         }
         _reverseLogic[id] = reverseLogic; // NOT used, should always be false
         emit LogicAdded(
             id,
             logicContract,
             _isAllowList[id],
-            _logicName[id],
+            _logicContractLabel[id],
             reverseLogic
         );
     }
@@ -209,7 +209,7 @@ contract MoleculeController is Ownable, IMoleculeController {
         );
         delete _logicContract[id];
         delete _isAllowList[id];
-        delete _logicName[id];
+        delete _logicContractLabel[id];
         delete _reverseLogic[id];
         emit LogicRemoved(id);
     }

@@ -5,9 +5,9 @@ import "forge-std/Test.sol";
 import "forge-std/Vm.sol";
 import "forge-std/console.sol";
 
-import "../src/v2/tokens/ERC721m.sol";
-import "../src/v2/MoleculeController.sol";
-import "../src/v2/MoleculeLogicList.sol";
+import "../../src/v2/tokens/ERC721m.sol";
+import "../../src/v2/MoleculeController.sol";
+import "../../src/v2/MoleculeLogicList.sol";
 
 contract ERC721MTest is Test {
     event ListAdded(address[] addresses);
@@ -42,9 +42,6 @@ contract ERC721MTest is Test {
     address daisy = makeAddr("daisy");
     address eric = makeAddr("eric");
 
-    uint256 tokenId = 1;
-    uint256 tokenId2 = 2;
-
     function setUp() public {
         molToken = new ERC721m("molecule", "MOL");
         molecule = new MoleculeController("molecule controller");
@@ -70,7 +67,7 @@ contract ERC721MTest is Test {
 
         // add logic contract to Molecule for access control
         vm.expectEmit(true, true, true, true);
-        // 3rd param false means we're setting an blocklists
+        // 3rd param: false means we're setting a blocklist
         emit LogicAdded(logicId, address(logicList), true, "test", true);
         molecule.addLogic(logicId, address(logicList), "test", true);
 
@@ -117,7 +114,7 @@ contract ERC721MTest is Test {
         assertEq(molToken.balanceOf(bob), 0);
     }
 
-    function test_erc721_MoleculeAllowlist() public {
+    function test_erc721_MoleculeAllowlist_MintGate() public {
         setAllowlist();
 
         // tell token contract which actions are to be gated
@@ -147,7 +144,7 @@ contract ERC721MTest is Test {
         vm.stopPrank();
     }
 
-    function test_erc721_MoleculeBlocklist() public {
+    function test_erc721_MoleculeBlocklist_MintGate() public {
         setBlockList();
 
         // tell token contract which actions are to be gated: Mint and Burn
@@ -207,6 +204,42 @@ contract ERC721MTest is Test {
         molToken.transferFrom(daisy, eric, 1);
         assertEq(molToken.balanceOf(eric), 1);
 
+        vm.stopPrank();
+    }
+
+    function test_erc721_MoleculeAllowList_ApproveGate() public {
+        setAllowlist();
+
+        vm.expectEmit(true, true, false, false);
+        emit MoleculeUpdated(address(molecule), MoleculeType.Approve);
+        molToken.updateMolecule(
+            address(molecule),
+            ERC721m.MoleculeType.Approve
+        );
+        assertEq(molToken._moleculeApprove(), address(molecule));
+
+        vm.startPrank(daisy);
+        molToken.mint(daisy, 1);
+        assertEq(molToken.balanceOf(daisy), 1);
+
+        // approval not allowed since daisy is not on allowlist
+        bytes4 selector = bytes4(
+            keccak256("OwnerNotAllowedToApprove(address)")
+        );
+        vm.expectRevert(abi.encodeWithSelector(selector, daisy));
+        molToken.approve(bob, 1);
+
+        vm.stopPrank();
+
+        vm.startPrank(bob);
+        molToken.mint(bob, 3);
+        assertEq(molToken.balanceOf(bob), 1);
+        // approval not allowed since daisy is not on allowlist
+        bytes4 selector2 = bytes4(
+            keccak256("SpenderNotAllowedToReceive(address)")
+        );
+        vm.expectRevert(abi.encodeWithSelector(selector2, daisy));
+        molToken.approve(daisy, 3);
         vm.stopPrank();
     }
 }

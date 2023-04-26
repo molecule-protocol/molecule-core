@@ -3,7 +3,7 @@
 pragma solidity ^0.8.17;
 
 // ERC20 token implementation
-import {ERC20} from "@solmate/tokens/ERC20.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IMoleculeController.sol";
 
@@ -31,10 +31,10 @@ contract ERC20m is ERC20, Ownable {
     event MoleculeUpdated(address molecule, MoleculeType mtype);
 
     constructor(
-        string memory tokenName,
-        string memory tokenSymbol,
+        string memory _tokenName,
+        string memory _tokenSymbol,
         uint8 tokenDecimals
-    ) ERC20(tokenName, tokenSymbol, tokenDecimals) {}
+    ) ERC20(_tokenName, _tokenSymbol) {}
 
     function mint(address account, uint256 amount) external {
         if (_moleculeMint != address(0)) {
@@ -59,7 +59,7 @@ contract ERC20m is ERC20, Ownable {
         address sender,
         address recipient,
         uint256 amount
-    ) external virtual {
+    ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
             if (!IMoleculeController(_moleculeTransfer).check(sender)) {
                 revert SenderNotAllowedToTransfer(sender);
@@ -68,7 +68,7 @@ contract ERC20m is ERC20, Ownable {
                 revert RecipientNotAllowedToReceive(recipient);
             }
         }
-        transfer(recipient, amount);
+        super._transfer(sender, recipient, amount);
     }
 
     // Approve function
@@ -76,7 +76,7 @@ contract ERC20m is ERC20, Ownable {
         address owner,
         address spender,
         uint256 amount
-    ) internal virtual {
+    ) internal virtual override {
         if (_moleculeApprove != address(0)) {
             if (!IMoleculeController(_moleculeApprove).check(owner)) {
                 revert OwnerNotAllowedToApprove(owner);
@@ -85,7 +85,7 @@ contract ERC20m is ERC20, Ownable {
                 revert RecipientNotAllowedToReceive(spender);
             }
         }
-        approve(spender, amount);
+        super._approve(owner, spender, amount);
     }
 
     // Owner only functions
