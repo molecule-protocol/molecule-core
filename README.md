@@ -15,6 +15,7 @@ This project was built using [Foundry](https://book.getfoundry.sh/). Refer to in
 git clone git@github.com:molecule-protocol/molecule-core.git
 cd molecule-core
 forge install
+yarn build
 ```
 
 ## What is Molecule Protocol?

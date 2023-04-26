@@ -241,5 +241,43 @@ contract ERC20MTest is Test {
         vm.expectRevert(abi.encodeWithSelector(selector2, alice));
         molToken.approve(alice, 5);
         vm.stopPrank();
+
+        // remove molecule access control for token approve, all users can set approval
+        vm.expectEmit(true, true, false, false);
+        emit MoleculeUpdated(address(0), MoleculeType.Approve);
+        molToken.updateMolecule(address(0), ERC20m.MoleculeType.Approve);
+        assertEq(molToken._moleculeApprove(), address(0));
+
+        // approve and transfer tokens
+        vm.startPrank(alice);
+
+        molToken.approve(alice, 10);
+
+        // alice is on the blocklist and hence cannot send tokens
+        bytes4 selector3 = bytes4(
+            keccak256("SenderNotAllowedToTransfer(address)")
+        );
+        vm.expectRevert(abi.encodeWithSelector(selector3, alice));
+        molToken.transferFrom(alice, daisy, 5);
+        vm.stopPrank();
+
+        vm.startPrank(eric);
+        molToken.mint(eric, 20);
+        assertEq(molToken.balanceOf(eric), 20);
+
+        molToken.approve(eric, 20);
+
+        bytes4 selector4 = bytes4(
+            keccak256("RecipientNotAllowedToReceive(address)")
+        );
+        vm.expectRevert(abi.encodeWithSelector(selector4, alice));
+        molToken.transferFrom(eric, alice, 5);
+
+        // eric and daisy are not part of the blocklist
+        vm.expectEmit(true, true, true, true);
+        emit Transfer(eric, daisy, 5);
+        molToken.transferFrom(eric, daisy, 5);
+        assertEq(molToken.balanceOf(daisy), 25);
+        vm.stopPrank();
     }
 }
