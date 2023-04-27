@@ -11,7 +11,7 @@ import "./interfaces/IMoleculeLogic.sol";
 ///  Note: 1155 requires tokenId as input, currently not supported
 contract MoleculeLogicNFT is Ownable, IMoleculeLogic {
     // Human readable name of the list
-    string public _logicName;
+    string public _logicLabel;
     // True if the list is an allowlist, false if it is a Blocklist
     bool public _isAllowlist;
     // NFT contract address
@@ -22,14 +22,14 @@ contract MoleculeLogicNFT is Ownable, IMoleculeLogic {
 
     constructor(string memory name_, bool isAllowlist_, address nftContract_) {
         // Name and the allowlist/blocklist can only be set during creation
-        _logicName = name_;
+        _logicLabel = name_;
         _isAllowlist = isAllowlist_;
         emit NFTLogicCreated(name_, isAllowlist_);
         setNFTContract(nftContract_);
     }
 
     function logicName() external view returns (string memory) {
-        return _logicName;
+        return _logicLabel;
     }
 
     function isAllowlist() external view returns (bool) {

@@ -3,7 +3,7 @@
 pragma solidity ^0.8.17;
 
 // ERC20 token implementation
-import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import {ERC20} from "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IMoleculeController.sol";
 
@@ -30,7 +30,10 @@ contract ERC20m is ERC20, Ownable {
 
     event MoleculeUpdated(address molecule, MoleculeType mtype);
 
-    constructor(string memory name, string memory symbol) ERC20(name, symbol) {}
+    constructor(
+        string memory _tokenName,
+        string memory _tokenSymbol
+    ) ERC20(_tokenName, _tokenSymbol) {}
 
     function mint(address account, uint256 amount) external {
         if (_moleculeMint != address(0)) {

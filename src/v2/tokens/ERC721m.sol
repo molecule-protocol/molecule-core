@@ -2,7 +2,7 @@
 
 pragma solidity ^0.8.17;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IMoleculeController.sol";
 
@@ -30,9 +30,9 @@ contract ERC721m is ERC721, Ownable {
     event MoleculeUpdated(address molecule, MoleculeType mtype);
 
     constructor(
-        string memory name,
-        string memory symbol
-    ) ERC721(name, symbol) {}
+        string memory _name,
+        string memory _symbol
+    ) ERC721(_name, _symbol) {}
 
     function mint(address to, uint256 tokenId) external {
         if (_moleculeMint != address(0)) {
@@ -70,6 +70,7 @@ contract ERC721m is ERC721, Ownable {
         super._transfer(from, to, tokenId);
     }
 
+    // @internal functions: applying gating at the internal function level, will apply to both transferFrom and safeTransferFrom
     // Approve function
     function _approve(address to, uint256 tokenId) internal virtual override {
         if (_moleculeApprove != address(0)) {
@@ -102,4 +103,8 @@ contract ERC721m is ERC721, Ownable {
         }
         emit MoleculeUpdated(molecule, mtype);
     }
+
+    function tokenURI(
+        uint256 id
+    ) public view virtual override returns (string memory) {}
 }
