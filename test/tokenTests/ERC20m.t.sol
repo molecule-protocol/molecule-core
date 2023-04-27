@@ -44,7 +44,7 @@ contract ERC20MTest is Test {
     address eric = makeAddr("eric");
 
     function setUp() public {
-        molToken = new ERC20m("molecule", "MOL", 18);
+        molToken = new ERC20m("molecule", "MOL");
         molecule = new MoleculeController("molecule controller");
         logicList = new MoleculeLogicList("booyah", true);
     }
