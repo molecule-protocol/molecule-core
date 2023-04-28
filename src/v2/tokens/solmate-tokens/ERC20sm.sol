@@ -33,7 +33,7 @@ contract ERC20m is ERC20, Ownable {
     constructor(
         string memory _tokenName,
         string memory _tokenSymbol,
-        uint8 tokenDecimals
+        uint8 tokenDecimals // 18/9
     ) ERC20(_tokenName, _tokenSymbol, tokenDecimals) {}
 
     function mint(address account, uint256 amount) external {
