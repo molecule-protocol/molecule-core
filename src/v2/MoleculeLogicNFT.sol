@@ -20,11 +20,11 @@ contract MoleculeLogicNFT is Ownable, IMoleculeLogic {
     event NFTContractSet(address nftContract);
     event NFTLogicCreated(string name, bool isAllowlist);
 
-    constructor(string memory name_, bool isAllowlist_, address nftContract_) {
+    constructor(string memory label_, bool isAllowlist_, address nftContract_) {
         // Name and the allowlist/blocklist can only be set during creation
-        _logicLabel = name_;
+        _logicLabel = label_;
         _isAllowlist = isAllowlist_;
-        emit NFTLogicCreated(name_, isAllowlist_);
+        emit NFTLogicCreated(label_, isAllowlist_);
         setNFTContract(nftContract_);
     }
 
