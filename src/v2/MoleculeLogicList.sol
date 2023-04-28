@@ -19,11 +19,11 @@ contract MoleculeLogicList is Ownable, IMoleculeLogic {
     event ListRemoved(address[] addresses);
     event LogicCreated(string name, bool isAllowlist);
 
-    constructor(string memory name_, bool isAllowlist_) {
+    constructor(string memory label_, bool isAllowlist_) {
         // Name and the allowlist/blocklist can only be set during creation
-        _logicLabel = name_;
+        _logicLabel = label_;
         _isAllowlist = isAllowlist_;
-        emit LogicCreated(name_, isAllowlist_);
+        emit LogicCreated(label_, isAllowlist_);
     }
 
     function logicName() external view returns (string memory) {
