@@ -28,7 +28,7 @@ The access control rules are defined by **MoleculeLogic** contracts. The templat
 
 Two fully functionaly sample MoleculeLogic contracts are provided for implementing allow-list or block-list using NFTs or custom lists.
 
-## What do I use Molecule Protocol in my smart contracts?
+## How do I use Molecule Protocol in my smart contracts?
 
 It can be implemented with 1-line using a `require` statement. Or use the more gas-optimized code snippet below.
 
