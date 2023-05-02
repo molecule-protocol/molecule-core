@@ -22,7 +22,7 @@ yarn build
 
 Molecule Protocol standardizes how to implement access control rules.
 
-It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set it to different statuses so it always allow or block.
+It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set different statuses to "always allow" or "always block", for example.
 
 The access control rules are defined by **MoleculeLogic** contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function **check()** that returns the logic (_true_ or _false_.) The other requirements are a human readable _name_ and a boolean that states if it is an allow-list or a block-list.
 
