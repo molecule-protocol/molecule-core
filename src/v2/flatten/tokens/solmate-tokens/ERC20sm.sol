@@ -377,7 +377,6 @@ interface IMoleculeController {
     function addLogic(
         uint32 id,
         address logicContract,
-        bool isAllowList,
         string memory name,
         bool reverseLogic
     ) external;
@@ -389,7 +388,6 @@ interface IMoleculeController {
     function addLogicBatch(
         uint32[] memory ids,
         address[] memory logicContracts,
-        bool[] memory isAllowLists,
         string[] memory names,
         bool[] memory reverseLogics
     ) external;
