@@ -1571,7 +1571,6 @@ interface IMoleculeController {
     function addLogic(
         uint32 id,
         address logicContract,
-        bool isAllowList,
         string memory name,
         bool reverseLogic
     ) external;
@@ -1583,7 +1582,6 @@ interface IMoleculeController {
     function addLogicBatch(
         uint32[] memory ids,
         address[] memory logicContracts,
-        bool[] memory isAllowLists,
         string[] memory names,
         bool[] memory reverseLogics
     ) external;
@@ -1591,6 +1589,13 @@ interface IMoleculeController {
     // Remove logics in batch
     function removeLogicBatch(uint32[] memory ids) external;
 }
+
+// custom errors
+error AccountNotAllowedToMint(address minter);
+error AccountNotAllowedToBurn(address burner);
+error SenderNotAllowedToTransfer(address sender);
+error RecipientNotAllowedToReceive(address receipient);
+error OwnerNotAllowedToApprove(address owner);
 
 // Molecule ERC1155 token
 contract ERC1155m is ERC1155, Ownable {
@@ -1631,20 +1636,18 @@ contract ERC1155m is ERC1155, Ownable {
         bytes memory data
     ) external {
         if (_moleculeMint != address(0)) {
-            require(
-                IMoleculeController(_moleculeMint).check(account),
-                "ERC1155m: account not allowed to mint"
-            );
+            if (!IMoleculeController(_moleculeMint).check(account)) {
+                revert AccountNotAllowedToMint(account);
+            }
         }
         _mint(account, id, amount, data);
     }
 
     function burn(address account, uint256 id, uint256 amount) external {
         if (_moleculeBurn != address(0)) {
-            require(
-                IMoleculeController(_moleculeBurn).check(account),
-                "ERC1155m: account not allowed to burn"
-            );
+            if (!IMoleculeController(_moleculeBurn).check(account)) {
+                revert AccountNotAllowedToBurn(account);
+            }
         }
         _burn(account, id, amount);
     }
@@ -1652,38 +1655,42 @@ contract ERC1155m is ERC1155, Ownable {
     // Transfer function: note this is used by all mint/burn/transfer functions
     function _beforeTokenTransfer(
         address operator,
-        address from,
-        address to,
+        address sender,
+        address recipient,
         uint256[] memory ids,
         uint256[] memory amounts,
         bytes memory data
     ) internal virtual override {
         if (_moleculeTransfer != address(0)) {
-            require(
-                IMoleculeController(_moleculeTransfer).check(from),
-                "ERC1155m: sender not allowed to transfer"
-            );
-            require(
-                IMoleculeController(_moleculeTransfer).check(to),
-                "ERC1155m: recipient not allowed to receive"
-            );
+            if (!IMoleculeController(_moleculeTransfer).check(sender)) {
+                revert SenderNotAllowedToTransfer(sender);
+            }
+            if (!IMoleculeController(_moleculeTransfer).check(recipient)) {
+                revert RecipientNotAllowedToReceive(recipient);
+            }
         }
-        super._beforeTokenTransfer(operator, from, to, ids, amounts, data);
+        super._beforeTokenTransfer(
+            operator,
+            sender,
+            recipient,
+            ids,
+            amounts,
+            data
+        );
     }
 
-    // Approve function
+    // internal approve function
     function _setApprovalForAll(
-        address owner,
+        address tokenOwner,
         address operator,
         bool approved
     ) internal virtual override {
         if (_moleculeApprove != address(0)) {
-            require(
-                IMoleculeController(_moleculeApprove).check(operator),
-                "ERC1155m: owner not allowed to approve"
-            );
+            if (!IMoleculeController(_moleculeApprove).check(operator)) {
+                revert OwnerNotAllowedToApprove(operator);
+            }
         }
-        super._setApprovalForAll(owner, operator, approved);
+        super._setApprovalForAll(tokenOwner, operator, approved);
     }
 
     // Owner only functions

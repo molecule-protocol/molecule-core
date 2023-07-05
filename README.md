@@ -22,13 +22,15 @@ yarn build
 
 Molecule Protocol standardizes how to implement access control rules.
 
-It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set it to different statuses so it always allow or block.
+<img width="683" alt="image" src="https://github.com/molecule-protocol/molecule-core/assets/11822078/5fe60533-5bff-445c-823d-a531b39a7bd2">
+
+It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set different statuses to "always allow" or "always block", for example.
 
 The access control rules are defined by **MoleculeLogic** contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function **check()** that returns the logic (_true_ or _false_.) The other requirements are a human readable _name_ and a boolean that states if it is an allow-list or a block-list.
 
 Two fully functionaly sample MoleculeLogic contracts are provided for implementing allow-list or block-list using NFTs or custom lists.
 
-## What do I use Molecule Protocol in my smart contracts?
+## How do I use Molecule Protocol in my smart contracts?
 
 It can be implemented with 1-line using a `require` statement. Or use the more gas-optimized code snippet below.
 
