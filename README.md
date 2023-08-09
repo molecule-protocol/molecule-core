@@ -103,21 +103,27 @@ or join our Discord: https://discord.gg/J8dqFK8ufA
 
 ## AML Deployments
 
-Goerli Testnet:
+### Goerli Testnet:
 
-- Molecule AML Deployment: [0x1D2048b4673a7D3C874D5Ca0cB584695Fcc4CC7e](https://goerli.etherscan.io/address/0x1d2048b4673a7d3c874d5ca0cb584695fcc4cc7e)
+- Molecule Controller AML Deployment: [0x6F612658b209Ed53720a31D6d2CbE7bCF1664595](https://goerli.etherscan.io/address/0x6F612658b209Ed53720a31D6d2CbE7bCF1664595)
 
-- US Sanction List: [0x36fcB28EA4F1a227F6FB17005046b59Fb164BEA1](https://goerli.etherscan.io/address/0x36fcb28ea4f1a227f6fb17005046b59fb164bea1)
+- US Sanction List (ID:840): [0x710dAaD75641f8D57CE54291A00Ac76cc2beD248](https://goerli.etherscan.io/address/0x710dAaD75641f8D57CE54291A00Ac76cc2beD248)
 
-- EU Sanction List: [0xAB73E85dd23f87E205D1C7C2354a372C3841c829](https://goerli.etherscan.io/address/0xab73e85dd23f87e205d1c7c2354a372c3841c829)
+- UK Sanction List (ID:826): [0xc934E5372D8c3841DD08b9FBeeF52473CfD9ABf5](https://goerli.etherscan.io/address/0xc934E5372D8c3841DD08b9FBeeF52473CfD9ABf5)
 
-Goerli Testnet (Old):
+- EU Sanction List (ID:001): [0x1734E7BEa6CBf4602b3dfE1eA2CB32be8291553B](https://goerli.etherscan.io/address/0x1734E7BEa6CBf4602b3dfE1eA2CB32be8291553B)
 
-- MoleculeAddress contract: [0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2](https://goerli.etherscan.io/address/0x692f0Ac3eDDF405C8a864643DC104b3B01F594C2)
 
-- LogicAddressAML US (ID:840) contract address: [0x6ff3F2DAa62e11D6fEC233410d2151948234d496](https://goerli.etherscan.io/address/0x6ff3F2DAa62e11D6fEC233410d2151948234d496)
+### Sepolia Testnet:
 
-- LogicAddressAML UK (ID:826) contract address: [0x3daD441A8C07eF64AA22e6114c39d690a098783F](https://goerli.etherscan.io/address/0x3daD441A8C07eF64AA22e6114c39d690a098783F)
+- Molecule Controller AML Deployment: [0x6Af29020B8C1B343d0eC3FFD81aA507b5AB05b43](https://sepolia.etherscan.io/address/0x6Af29020B8C1B343d0eC3FFD81aA507b5AB05b43)
+
+- US Sanction List (ID:840): [0x769A94FF9548Eee399ef3F7A4d3f33b2f81c8487](https://sepolia.etherscan.io/address/0x769A94FF9548Eee399ef3F7A4d3f33b2f81c8487)
+
+- UK Sanction List (ID:826): [0x55178561E4332Fe6397422EEB958C57867aC4751](https://sepolia.etherscan.io/address/0x55178561E4332Fe6397422EEB958C57867aC4751)
+
+
+
 
 ## Gas Comparison on Batch updations
 
