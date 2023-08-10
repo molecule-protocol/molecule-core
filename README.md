@@ -20,36 +20,45 @@ yarn build
 
 ## What is Molecule Protocol?
 
-Molecule Protocol standardizes how to implement access control rules.
+Molecule Protocol standardizes implemantion of onchain access control rules.
 
 <img width="683" alt="image" src="https://github.com/molecule-protocol/molecule-core/assets/11822078/5fe60533-5bff-445c-823d-a531b39a7bd2">
 
-It consists of a **MoleculeController** contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set different statuses to "always allow" or "always block", for example.
+It consists of a `MoleculeController` contract, where rules can be added or removed. The owner can also preset which combination of rules to activate, or set different statuses to **always allow** or **always block**, for instance.
 
-The access control rules are defined by **MoleculeLogic** contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function **check()** that returns the logic (_true_ or _false_.) The other requirements are a human readable _name_ and a boolean that states if it is an allow-list or a block-list.
+The access control rules are defined by `MoleculeLogic` contracts. The template is minimalistic by design, so it can be implemented in any ways for any purposes. It has only 1 required function `check()` that returns the logic (_true_ or _false_.) The other requirements are a human readable `name` and a boolean that states if it is an allow-list or a block-list.
 
-Two fully functionaly sample MoleculeLogic contracts are provided for implementing allow-list or block-list using NFTs or custom lists.
+Two fully functionaly sample `MoleculeLogic` contracts are provided for implementing allow-list or block-list using NFTs or custom lists.
 
 ## How do I use Molecule Protocol in my smart contracts?
 
-It can be implemented with 1-line using a `require` statement. Or use the more gas-optimized code snippet below.
+It can be implemented with 1-line using a `require` statement.
 
 ```
-  error RecipientNotAllowedToReceive(address sender);
-  if (!IMoleculeController(_moleculeTransfer).check(recipient)) {
-      revert RecipientNotAllowedToReceive(recipient);
-  }
+require(IMoleculeAddress(_moleculeContract).check(accountAddress), "error: account not allowed to access this function");
 ```
 
-`_moleculeTransfer` is the **MoleculeController** contract address that checks if the recipient is allowed or not. Use the Solidity `error` more meaningful error messages can be logged with variables.
+You can also use the more gas-optimized code snippet below.
+
+```
+error RecipientNotAllowedToReceive(address sender);
+
+...
+
+if (!IMoleculeController(_moleculeTransfer).check(recipient)) {
+    revert RecipientNotAllowedToReceive(recipient);
+}
+```
+
+`_moleculeTransfer` is the **MoleculeController** contract address that checks if the recipient is allowed or not. Using the Solidity `error` keyword more meaningful error messages can be logged with variables.
 
 Three simple steps:
 
-1. Launch and configure configure your MoleculeController contract and customize the logic
+1. Launch and configure configure your `MoleculeController` contract and customize the logic.
 
-2. Import the MoleculeController Interface in your smart contract
+2. Import the `MoleculeController` interface in your smart contract.
 
-3. Cast the MoleculeController with contract address and call the check() function with the address to validate
+3. Cast the `MoleculeController` with contract address and call the `check()` function with the address to validate
 
 Fully functional token contracts with Molecule Protocol integrated are available here:
 
@@ -59,7 +68,9 @@ Fully functional token contracts with Molecule Protocol integrated are available
 
 You can launch the contracts and add rules later.
 
-Below are other common use cases for the Molecule Protocol.
+
+
+Below are other common use cases for Molecule Protocol.
 
 ### NFT Mint Allowlist (Whitelist)
 
@@ -69,7 +80,7 @@ Allow list (whitelist) is a common use case for NFT minting. By using Molecule P
 
 AML: Most DeFi protocols enforce AML (Anti-Money-Laundering) at the UI level only. Molecule Protocol enables AML checks at the smart contract level, ensuring no unauthorized counterparties at any time.
 
-KYC: Molecule Protocol is composable with KYC projects like [KYC Dao](https://kycdao.xyz/) and [Quadrata](https://quadrata.com/)
+KYC: Molecule Protocol is composable with KYC projects like [KYC Dao](https://kycdao.xyz/) and [Quadrata](https://quadrata.com/).
 
 ### Soulbound and Conditional-Soulbound Tokens
 
@@ -97,7 +108,7 @@ Can you think of more use cases that Molecule Protocol can support? Please descr
 
 Send us questions on Twitter: [@moleculepro](https://twitter.com/moleculepro)
 
-or join our Discord: https://discord.gg/J8dqFK8ufA
+Or join our Discord: https://discord.gg/J8dqFK8ufA
 
 # Additional Information
 
@@ -113,7 +124,6 @@ or join our Discord: https://discord.gg/J8dqFK8ufA
 
 - EU Sanction List (ID:001): [0x1734E7BEa6CBf4602b3dfE1eA2CB32be8291553B](https://goerli.etherscan.io/address/0x1734E7BEa6CBf4602b3dfE1eA2CB32be8291553B)
 
-
 ### Sepolia Testnet:
 
 - Molecule Controller AML Deployment: [0x6Af29020B8C1B343d0eC3FFD81aA507b5AB05b43](https://sepolia.etherscan.io/address/0x6Af29020B8C1B343d0eC3FFD81aA507b5AB05b43)
@@ -122,12 +132,9 @@ or join our Discord: https://discord.gg/J8dqFK8ufA
 
 - UK Sanction List (ID:826): [0x55178561E4332Fe6397422EEB958C57867aC4751](https://sepolia.etherscan.io/address/0x55178561E4332Fe6397422EEB958C57867aC4751)
 
-
-
-
 ## Gas Comparison on Batch updations
 
-| Task           | chain                 | Transaction Gas Amount (Gas usage) | Gas price          | Cost                    |
+| Task           | Chain                 | Transaction Gas Amount (Gas usage) | Gas price          | Cost                    |
 | -------------- | --------------------- | ---------------------------------- | ------------------ | ----------------------- |
 | Batch updation | Tenderly mainnet fork | 1,287,779                          | 50 Gwei            | 0.064 ETH               |
 | Batch updation | polygon mumbai        | 1,496,526                          | 50 Gwei            | 0.0748263 MATIC ($0.08) |
@@ -144,22 +151,22 @@ or join our Discord: https://discord.gg/J8dqFK8ufA
 | Transfer ERC20 (without gating)    | sepolia | 49,587 (91.17%)                    | 2.50 Gwei | 0.000123967500396696 ETH |
 | Mint ERC20m (with gating)          | sepolia | 78,679                             | 2.50 Gwei | 0.000196697500708111 ETH |
 | Transfer ERC20m (with gating)      | sepolia | 64,741 (93.1%)                     | 2.50 Gwei | 0.000161852500517928 ETH |
-| Deploy ERC20 oz                    | sepolia | 1,819,416                          | 2.50 Gwei | 0.004548540014555328 ETH |
-| Mint ERC20 oz                      | sepolia | 71,527                             | 2.50 Gwei | 0.000178817500572216 ETH |
-| Transfer ERC20 oz                  | sepolia | 49,631                             | 2.50 Gwei | 0.000124077500397048 ETH |
+| Deploy ERC20 OZ                    | sepolia | 1,819,416                          | 2.50 Gwei | 0.004548540014555328 ETH |
+| Mint ERC20 OZ                      | sepolia | 71,527                             | 2.50 Gwei | 0.000178817500572216 ETH |
+| Transfer ERC20 OZ                  | sepolia | 49,631                             | 2.50 Gwei | 0.000124077500397048 ETH |
 | Deploy ERC721m                     | sepolia | 3,262,692                          | 2.50 Gwei | 0.008156730026101536 ETH |
 | Mint ERC721m (without gating)      | sepolia | 74,524                             | 2.50 Gwei | 0.00018631000074524 ETH  |
 | Transfer ERC721m (without gating)  | sepolia | 58,471 (92.41%)                    | 2.50 Gwei | 0.000146177500643181 ETH |
 | Mint ERC721m (with gating)         | sepolia | 99,151                             | 2.50 Gwei | 0.000247877500892359 ETH |
 | Transfer ERC721m (with gating)     | sepolia | 73,631 (93.88%)                    | 2.50 Gwei | 0.000184077500662679 ETH |
-| Deploy ERC721 oz                   | sepolia | 2,634,838                          | 2.50 Gwei | 0.006587095021078704 ETH |
-| Mint ERC721 oz                     | sepolia | 96,921 (100%)                      | 2.50 Gwei | 0.000242302500872289 ETH |
-| Transfer ERC721 oz                 | sepolia | 58,508 (92.42%)                    | 2.50 Gwei | 0.000146270000526572 ETH |
+| Deploy ERC721 OZ                   | sepolia | 2,634,838                          | 2.50 Gwei | 0.006587095021078704 ETH |
+| Mint ERC721 OZ                     | sepolia | 96,921 (100%)                      | 2.50 Gwei | 0.000242302500872289 ETH |
+| Transfer ERC721 OZ                 | sepolia | 58,508 (92.42%)                    | 2.50 Gwei | 0.000146270000526572 ETH |
 | Deploy ERC1155m                    | sepolia | 3,484,645                          | 2.50 Gwei | 0.008711612531361805 ETH |
 | Mint ERC1155m (without gating)     | sepolia | 56,803                             | 2.50 Gwei | 0.00014200750056803 ETH  |
 | Transfer ERC1155m (without gating) | sepolia | 55,929 (92.1%)                     | 2.50 Gwei | 0.000139822500503361 ETH |
 | Mint ERC1155m (with gating)        | sepolia | 94,684                             | 2.50 Gwei | 0.000236710001041524 ETH |
 | Transfer ERC1155m (with gating)    | sepolia | 71,083 (93.67%)                    | 2.50 Gwei | 0.00017770750071083 ETH  |
-| Deploy ERC1155 oz                  | sepolia | 3,359,382                          | 2.50 Gwei | 0.00839845503359382 ETH  |
-| Mint ERC1155 oz                    | sepolia | 54,693                             | 2.50 Gwei | 0.00013673250054693 ETH  |
-| Transfer ERC1155 oz                | sepolia | 53,704 (91.8%)                     | 2.50 Gwei | 0.000134260000483336 ETH |
+| Deploy ERC1155 OZ                  | sepolia | 3,359,382                          | 2.50 Gwei | 0.00839845503359382 ETH  |
+| Mint ERC1155 OZ                    | sepolia | 54,693                             | 2.50 Gwei | 0.00013673250054693 ETH  |
+| Transfer ERC1155 OZ                | sepolia | 53,704 (91.8%)                     | 2.50 Gwei | 0.000134260000483336 ETH |
