@@ -5,9 +5,9 @@ pragma solidity ^0.8.17;
 interface IMoleculeLogic {
     // Recommended public variables for each MoleculeLogic contract
     // Human readable name of the list
-    // string public _logicName;
+    // string public logicName;
     // True if the list is an allowlist, false if it is a Blocklist
-    // string public _isAllowlist;
+    // string public isAllowlistBool;
 
     function check(address account) external view returns (bool);
 
