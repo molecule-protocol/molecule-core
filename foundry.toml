@@ -2,3 +2,10 @@
 src = 'src'
 out = 'out'
 libs = ['lib']
+optimizer = false # Enable or disable the solc optimizer
+
+[rpc_endpoints]
+goerli = "${SEPOLIA_RPC_URL}"
+
+[etherscan]
+goerli = { key = "${ETHERSCAN_API_KEY}" }
